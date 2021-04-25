@@ -92,7 +92,6 @@ void GameTimer::Stop()
 	{
 		__int64 currTime;
 		QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
-
 		mStopTime = currTime;
 		mStopped  = true;
 	}

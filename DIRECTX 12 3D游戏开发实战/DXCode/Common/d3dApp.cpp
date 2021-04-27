@@ -70,9 +70,7 @@ void D3DApp::Set4xMsaaState(bool value)
 int D3DApp::Run()
 {
 	MSG msg = {0};
- 
 	mTimer.Reset();
-
 	while(msg.message != WM_QUIT)
 	{
 		// If there are Window messages then process them.
@@ -98,7 +96,6 @@ int D3DApp::Run()
 			}
         }
     }
-
 	return (int)msg.wParam;
 }
 
@@ -106,13 +103,9 @@ bool D3DApp::Initialize()
 {
 	if(!InitMainWindow())
 		return false;
-
 	if(!InitDirect3D())
 		return false;
-
-    // Do the initial resize code.
     OnResize();
-
 	return true;
 }
  
@@ -232,7 +225,14 @@ void D3DApp::OnResize()
 
     mScissorRect = { 0, 0, mClientWidth, mClientHeight };
 }
- 
+/// <summary>
+/// 处理各种窗口事件
+/// </summary>
+/// <param name="hwnd"></param>
+/// <param name="msg"></param>
+/// <param name="wParam"></param>
+/// <param name="lParam"></param>
+/// <returns></returns>
 LRESULT D3DApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch( msg )
@@ -249,7 +249,7 @@ LRESULT D3DApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			mTimer.Start();
 		}
 		return 0;
-	case WM_SIZE:
+	case WM_SIZE://改变窗口大小
 		mClientWidth  = LOWORD(lParam);
 		mClientHeight = HIWORD(lParam);
 		if( md3dDevice )
@@ -269,16 +269,12 @@ LRESULT D3DApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else if( wParam == SIZE_RESTORED )
 			{
-				
-				// Restoring from minimized state?
 				if( mMinimized )
 				{
 					mAppPaused = false;
 					mMinimized = false;
 					OnResize();
 				}
-
-				// Restoring from maximized state?
 				else if( mMaximized )
 				{
 					mAppPaused = false;
@@ -295,40 +291,40 @@ LRESULT D3DApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		return 0;
-	case WM_ENTERSIZEMOVE:
+	case WM_ENTERSIZEMOVE://改变窗口大小
 		mAppPaused = true;
 		mResizing  = true;
 		mTimer.Stop();
 		return 0;
-	case WM_EXITSIZEMOVE:
+	case WM_EXITSIZEMOVE://停止改变窗口大小
 		mAppPaused = false;
 		mResizing  = false;
 		mTimer.Start();
 		OnResize();
 		return 0;
-	case WM_DESTROY:
+	case WM_DESTROY://销毁
 		PostQuitMessage(0);
 		return 0;
-	case WM_MENUCHAR:
+	case WM_MENUCHAR://动态菜单快捷键？
         return MAKELRESULT(0, MNC_CLOSE);
 	case WM_GETMINMAXINFO:
 		((MINMAXINFO*)lParam)->ptMinTrackSize.x = 200;
 		((MINMAXINFO*)lParam)->ptMinTrackSize.y = 200; 
 		return 0;
-	case WM_LBUTTONDOWN:
+	case WM_LBUTTONDOWN://鼠标按下事件
 	case WM_MBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		return 0;
-	case WM_LBUTTONUP:
+	case WM_LBUTTONUP://鼠标松开事件
 	case WM_MBUTTONUP:
 	case WM_RBUTTONUP:
 		OnMouseUp(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		return 0;
-	case WM_MOUSEMOVE:
+	case WM_MOUSEMOVE://鼠标移动事件
 		OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		return 0;
-    case WM_KEYUP:
+    case WM_KEYUP://键盘事件
         if(wParam == VK_ESCAPE)
         {
             PostQuitMessage(0);
@@ -339,7 +335,10 @@ LRESULT D3DApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
-
+/// <summary>
+/// 初始化主窗口
+/// </summary>
+/// <returns></returns>
 bool D3DApp::InitMainWindow()
 {
 	WNDCLASS wc;
@@ -347,25 +346,23 @@ bool D3DApp::InitMainWindow()
 	wc.lpfnWndProc   = MainWndProc; //lpnf一个指向函数的长指针，处理窗口和键鼠事件
 	wc.cbClsExtra    = 0;
 	wc.cbWndExtra    = 0;
-	wc.hInstance     = mhAppInst;
-	wc.hIcon         = LoadIcon(0, IDI_APPLICATION);
-	wc.hCursor       = LoadCursor(0, IDC_ARROW);
+	wc.hInstance     = mhAppInst;//应用程序句柄
+	wc.hIcon         = LoadIcon(0, IDI_APPLICATION);//程序图标
+	wc.hCursor       = LoadCursor(0, IDC_ARROW);//鼠标指针图标
 	wc.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
 	wc.lpszMenuName  = 0;
-	wc.lpszClassName = L"MainWnd";
-
+	wc.lpszClassName = L"MainWnd";//窗口类结构体名字
 	if( !RegisterClass(&wc) )
 	{
 		MessageBox(0, L"RegisterClass Failed.", 0, 0);
 		return false;
 	}
-
-	// Compute window rectangle dimensions based on requested client area dimensions.
 	RECT R = { 0, 0, mClientWidth, mClientHeight };
+	//依据所需客户矩形的大小，计算需要的窗口矩形的大小
     AdjustWindowRect(&R, WS_OVERLAPPEDWINDOW, false);
 	int width  = R.right - R.left;
 	int height = R.bottom - R.top;
-
+	//创建窗口
 	mhMainWnd = CreateWindow(L"MainWnd", mMainWndCaption.c_str(), 
 		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height, 0, 0, mhAppInst, 0); 
 	if( !mhMainWnd )
@@ -373,10 +370,8 @@ bool D3DApp::InitMainWindow()
 		MessageBox(0, L"CreateWindow Failed.", 0, 0);
 		return false;
 	}
-
 	ShowWindow(mhMainWnd, SW_SHOW);
 	UpdateWindow(mhMainWnd);
-
 	return true;
 }
 

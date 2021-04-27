@@ -40,6 +40,14 @@ public:
 	int Run();
  
     virtual bool Initialize();
+    /// <summary>
+    /// 处理各种窗口事件
+    /// </summary>
+    /// <param name="hwnd"></param>
+    /// <param name="msg"></param>
+    /// <param name="wParam"></param>
+    /// <param name="lParam"></param>
+    /// <returns></returns>
     virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 protected:
@@ -54,7 +62,10 @@ protected:
 	virtual void OnMouseMove(WPARAM btnState, int x, int y){ }
 
 protected:
-
+	/// <summary>
+	/// 初始化主窗口
+	/// </summary>
+	/// <returns></returns>
 	bool InitMainWindow();
 	bool InitDirect3D();
 	void CreateCommandObjects();
@@ -75,14 +86,31 @@ protected:
 protected:
 
     static D3DApp* mApp;
-
-    HINSTANCE mhAppInst = nullptr; // application instance handle
-    HWND      mhMainWnd = nullptr; // main window handle
-	bool      mAppPaused = false;  // is the application paused?
-	bool      mMinimized = false;  // is the application minimized?
-	bool      mMaximized = false;  // is the application maximized?
-	bool      mResizing = false;   // are the resize bars being dragged?
-    bool      mFullscreenState = false;// fullscreen enabled
+    /// <summary>
+    /// 应用程序句柄
+    /// </summary>
+    HINSTANCE mhAppInst = nullptr;
+	/// <summary>
+	/// 主窗口句柄
+	/// </summary>
+	HWND      mhMainWnd = nullptr; 
+	/// <summary>
+	/// 是否暂停，暂停就不渲染了
+	/// </summary>
+	bool      mAppPaused = false;
+	/// <summary>
+	/// 窗口是否最小化
+	/// </summary>
+	bool      mMinimized = false;
+	/// <summary>
+	/// 窗口是否最大化
+	/// </summary>
+	bool      mMaximized = false;  
+	/// <summary>
+	/// 是否在拖动改变窗口大小
+	/// </summary>
+	bool      mResizing = false;   
+    bool      mFullscreenState = false;
 
 	// Set true to use 4X MSAA (?.1.8).  The default is false.
     bool      m4xMsaaState = false;    // 4X MSAA enabled

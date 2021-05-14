@@ -38,10 +38,8 @@ public class PostEffectsBase : MonoBehaviour {
 		if (shader == null) {
 			return null;
 		}
-		
 		if (shader.isSupported && material && material.shader == shader)
 			return material;
-		
 		if (!shader.isSupported) {
 			return null;
 		}

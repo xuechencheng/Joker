@@ -1,40 +1,31 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-Shader "Unity Shaders Book/Chapter 13/Motion Blur With Depth Texture" {
+﻿Shader "Unity Shaders Book/Chapter 13/Motion Blur With Depth Texture" {
 	Properties {
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		_BlurSize ("Blur Size", Float) = 1.0
 	}
 	SubShader {
 		CGINCLUDE
-		
 		#include "UnityCG.cginc"
-		
 		sampler2D _MainTex;
 		half4 _MainTex_TexelSize;
 		sampler2D _CameraDepthTexture;
 		float4x4 _CurrentViewProjectionInverseMatrix;
 		float4x4 _PreviousViewProjectionMatrix;
 		half _BlurSize;
-		
 		struct v2f {
 			float4 pos : SV_POSITION;
 			half2 uv : TEXCOORD0;
 			half2 uv_depth : TEXCOORD1;
 		};
-		
 		v2f vert(appdata_img v) {
 			v2f o;
 			o.pos = UnityObjectToClipPos(v.vertex);
-			
 			o.uv = v.texcoord;
 			o.uv_depth = v.texcoord;
-			
 			#if UNITY_UV_STARTS_AT_TOP
 			if (_MainTex_TexelSize.y < 0)
 				o.uv_depth.y = 1 - o.uv_depth.y;
 			#endif
-					 
 			return o;
 		}
 		
@@ -47,17 +38,14 @@ Shader "Unity Shaders Book/Chapter 13/Motion Blur With Depth Texture" {
 			float4 D = mul(_CurrentViewProjectionInverseMatrix, H);
 			// Divide by w to get the world position. 
 			float4 worldPos = D / D.w;
-			
 			// Current viewport position 
 			float4 currentPos = H;
 			// Use the world position, and transform by the previous view-projection matrix.  
 			float4 previousPos = mul(_PreviousViewProjectionMatrix, worldPos);
 			// Convert to nonhomogeneous points [-1,1] by dividing by w.
 			previousPos /= previousPos.w;
-			
 			// Use this frame's position and last frame's to compute the pixel velocity.
 			float2 velocity = (currentPos.xy - previousPos.xy)/2.0f;
-			
 			float2 uv = i.uv;
 			float4 c = tex2D(_MainTex, uv);
 			uv += velocity * _BlurSize;
@@ -66,20 +54,14 @@ Shader "Unity Shaders Book/Chapter 13/Motion Blur With Depth Texture" {
 				c += currentColor;
 			}
 			c /= 3;
-			
 			return fixed4(c.rgb, 1.0);
 		}
-		
 		ENDCG
-		
 		Pass {      
 			ZTest Always Cull Off ZWrite Off
-			    	
 			CGPROGRAM  
-			
 			#pragma vertex vert  
 			#pragma fragment frag  
-			  
 			ENDCG  
 		}
 	} 

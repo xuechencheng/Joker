@@ -41,7 +41,7 @@
 				fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
 				fixed halfLambert  = 0.5 * dot(worldNormal, worldLightDir) + 0.5;
-				//根据法线和光线夹角余弦进行图片采样
+				//根据法线和光线夹角图片采样坐标越大
 				fixed3 diffuseColor = tex2D(_RampTex, fixed2(halfLambert, halfLambert)).rgb * _Color.rgb;
 				fixed3 diffuse = _LightColor0.rgb * diffuseColor;
 				fixed3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));

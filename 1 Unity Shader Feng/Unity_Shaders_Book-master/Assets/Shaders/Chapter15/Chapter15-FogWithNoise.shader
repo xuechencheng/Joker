@@ -14,11 +14,8 @@ Shader "Unity Shaders Book/Chapter 15/Fog With Noise" {
 	}
 	SubShader {
 		CGINCLUDE
-		
 		#include "UnityCG.cginc"
-		
 		float4x4 _FrustumCornersRay;
-		
 		sampler2D _MainTex;
 		half4 _MainTex_TexelSize;
 		sampler2D _CameraDepthTexture;
@@ -29,27 +26,22 @@ Shader "Unity Shaders Book/Chapter 15/Fog With Noise" {
 		sampler2D _NoiseTex;
 		half _FogXSpeed;
 		half _FogYSpeed;
-		half _NoiseAmount;
-		
+		half _NoiseAmount;		
 		struct v2f {
 			float4 pos : SV_POSITION;
 			float2 uv : TEXCOORD0;
 			float2 uv_depth : TEXCOORD1;
 			float4 interpolatedRay : TEXCOORD2;
 		};
-		
 		v2f vert(appdata_img v) {
 			v2f o;
 			o.pos = UnityObjectToClipPos(v.vertex);
-			
 			o.uv = v.texcoord;
-			o.uv_depth = v.texcoord;
-			
+			o.uv_depth = v.texcoord;			
 			#if UNITY_UV_STARTS_AT_TOP
 			if (_MainTex_TexelSize.y < 0)
 				o.uv_depth.y = 1 - o.uv_depth.y;
 			#endif
-			
 			int index = 0;
 			if (v.texcoord.x < 0.5 && v.texcoord.y < 0.5) {
 				index = 0;
@@ -64,36 +56,25 @@ Shader "Unity Shaders Book/Chapter 15/Fog With Noise" {
 			if (_MainTex_TexelSize.y < 0)
 				index = 3 - index;
 			#endif
-			
 			o.interpolatedRay = _FrustumCornersRay[index];
-				 	 
 			return o;
 		}
-		
 		fixed4 frag(v2f i) : SV_Target {
 			float linearDepth = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv_depth));
-			float3 worldPos = _WorldSpaceCameraPos + linearDepth * i.interpolatedRay.xyz;
-			
+			float3 worldPos = _WorldSpaceCameraPos + linearDepth * i.interpolatedRay.xyz;			
 			float2 speed = _Time.y * float2(_FogXSpeed, _FogYSpeed);
 			float noise = (tex2D(_NoiseTex, i.uv + speed).r - 0.5) * _NoiseAmount;
-					
 			float fogDensity = (_FogEnd - worldPos.y) / (_FogEnd - _FogStart); 
 			fogDensity = saturate(fogDensity * _FogDensity * (1 + noise));
-			
 			fixed4 finalColor = tex2D(_MainTex, i.uv);
 			finalColor.rgb = lerp(finalColor.rgb, _FogColor.rgb, fogDensity);
-			
 			return finalColor;
 		}
-		
 		ENDCG
-		
 		Pass {          	
 			CGPROGRAM  
-			
 			#pragma vertex vert  
 			#pragma fragment frag  
-			  
 			ENDCG
 		}
 	} 

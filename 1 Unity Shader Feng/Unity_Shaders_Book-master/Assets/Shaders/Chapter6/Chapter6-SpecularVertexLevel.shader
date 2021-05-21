@@ -32,7 +32,7 @@
 				fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(worldNormal, worldLightDir));
 				// 反射光方向
 				fixed3 reflectDir = normalize(reflect(-worldLightDir, worldNormal));
-				// 视角方向，从物体指向摄像机
+				// 视角方向，从顶点指向摄像机
 				fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz - mul(unity_ObjectToWorld, v.vertex).xyz);
 				// 高光反射
 				fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(saturate(dot(reflectDir, viewDir)), _Gloss);

@@ -31,7 +31,7 @@
 				fixed4 renderTex = tex2D(_MainTex, i.uv);  
 				// 亮度
 				fixed3 finalColor = renderTex.rgb * _Brightness;
-				// 饱和度
+				// 饱和度 同等亮度情况下饱和度最低的值
 				fixed luminance = 0.2125 * renderTex.r + 0.7154 * renderTex.g + 0.0721 * renderTex.b;
 				fixed3 luminanceColor = fixed3(luminance, luminance, luminance);
 				finalColor = lerp(luminanceColor, finalColor, _Saturation);

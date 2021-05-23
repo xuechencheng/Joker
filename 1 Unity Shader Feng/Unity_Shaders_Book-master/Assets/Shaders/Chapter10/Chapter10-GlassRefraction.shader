@@ -59,7 +59,7 @@
 				fixed3 worldViewDir = normalize(UnityWorldSpaceViewDir(worldPos));
 				// Get the normal in tangent space
 				fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));	
-				// Compute the offset in tangent space
+				//_RefractionTex_TexelSize.xy纹理的纹素大小
 				float2 offset = bump.xy * _Distortion * _RefractionTex_TexelSize.xy;//Important
 				i.scrPos.xy = offset * i.scrPos.z + i.scrPos.xy;
 				fixed3 refrCol = tex2D(_RefractionTex, i.scrPos.xy/i.scrPos.w).rgb;

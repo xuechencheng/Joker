@@ -90,6 +90,8 @@
 				#else
 					#if defined (POINT)
 				        float3 lightCoord = mul(unity_WorldToLight, float4(i.worldPos, 1)).xyz;
+						//对标量进行.rr操作相当于构建了一个每个分量都是该标量的二维矢量
+						//UNITY_ATTEN_CHANNEL可以得到衰减纹理中衰减值所在分量
 				        fixed atten = tex2D(_LightTexture0, dot(lightCoord, lightCoord).rr).UNITY_ATTEN_CHANNEL;
 				    #elif defined (SPOT)
 				        float4 lightCoord = mul(unity_WorldToLight, float4(i.worldPos, 1));

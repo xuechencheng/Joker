@@ -42,11 +42,11 @@ Shader "Unity Shaders Book/Chapter 12/Edge Detection" {
 			}
 			half Sobel(v2f i) {
 				const half Gx[9] = {-1,  0,  1,
-										-2,  0,  2,
-										-1,  0,  1};
+									-2,  0,  2,
+									-1,  0,  1};
 				const half Gy[9] = {-1, -2, -1,
-										0,  0,  0,
-										1,  2,  1};		
+									 0,  0,  0,
+									 1,  2,  1};		
 				half texColor;
 				half edgeX = 0;
 				half edgeY = 0;
@@ -60,7 +60,7 @@ Shader "Unity Shaders Book/Chapter 12/Edge Detection" {
 			}
 			
 			fixed4 fragSobel(v2f i) : SV_Target {
-				half edge = Sobel(i);
+				half edge = Sobel(i);//edge越小，越是边缘
 				fixed4 withEdgeColor = lerp(_EdgeColor, tex2D(_MainTex, i.uv[4]), edge);
 				fixed4 onlyEdgeColor = lerp(_EdgeColor, _BackgroundColor, edge);
 				return lerp(withEdgeColor, onlyEdgeColor, _EdgeOnly);

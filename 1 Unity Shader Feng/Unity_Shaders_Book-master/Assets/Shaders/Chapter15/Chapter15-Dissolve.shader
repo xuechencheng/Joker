@@ -56,7 +56,6 @@
   				TRANSFER_SHADOW(o);
 				return o;
 			}
-			
 			fixed4 frag(v2f i) : SV_Target {
 				fixed3 burn = tex2D(_BurnMap, i.uvBurnMap).rgb;
 				clip(burn.r - _BurnAmount);
@@ -65,10 +64,12 @@
 				fixed3 albedo = tex2D(_MainTex, i.uvMainTex).rgb;
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
 				fixed3 diffuse = _LightColor0.rgb * albedo * max(0, dot(tangentNormal, tangentLightDir));
+				//smoothstep:0和_LineWidth中间取一个平滑过度值
 				fixed t = 1 - smoothstep(0.0, _LineWidth, burn.r - _BurnAmount);//t = 1表面该像素位于消融的边界处，t = 0表明像素为正常的模型颜色
 				fixed3 burnColor = lerp(_BurnFirstColor, _BurnSecondColor, t);
 				burnColor = pow(burnColor, 5);
 				UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);
+				//step(a, x)：Returns (x >= a) ? 1 : 0
 				fixed3 finalColor = lerp(ambient + diffuse * atten, burnColor, t * step(0.0001, _BurnAmount));
 				return fixed4(finalColor, 1);
 			}

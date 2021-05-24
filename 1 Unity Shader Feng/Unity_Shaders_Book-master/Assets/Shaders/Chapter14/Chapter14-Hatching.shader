@@ -55,7 +55,7 @@ Shader "Unity Shaders Book/Chapter 14/Hatching" {
 				o.uv = v.texcoord.xy * _TileFactor;
 				fixed3 worldLightDir = normalize(WorldSpaceLightDir(v.vertex));
 				fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);
-				fixed diff = max(0, dot(worldLightDir, worldNormal));
+				fixed diff = max(0, dot(worldLightDir, worldNormal));//光线和法线夹角
 				o.hatchWeights0 = fixed3(0, 0, 0);
 				o.hatchWeights1 = fixed3(0, 0, 0);
 				float hatchFactor = diff * 7.0;

@@ -91,6 +91,7 @@
 				UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);
 				fixed diff =  dot(worldNormal, worldLightDir);
 				diff = (diff * 0.5 + 0.5) * atten;
+				//使用一张一维纹理控制漫反射色调
 				fixed3 diffuse = _LightColor0.rgb * albedo * tex2D(_Ramp, float2(diff, diff)).rgb;
 				fixed spec = dot(worldNormal, worldHalfDir);
 				fixed w = fwidth(spec) * 2.0;

@@ -26,9 +26,7 @@ public partial class CameraRenderer
     };
     //绘制成使用错误材质的粉红颜色
     static Material errorMaterial;
-
     string SampleName { get; set; }
-
     /// <summary>
     /// 绘制SRP不支持的内置shader类型
     /// </summary>
@@ -39,7 +37,6 @@ public partial class CameraRenderer
         {
             errorMaterial = new Material(Shader.Find("Hidden/InternalErrorShader"));
         }
-         
         //数组第一个元素用来构造DrawingSettings的时候设置
         var drawingSettings = new DrawingSettings(legacyShaderTagIds[0], new SortingSettings(camera))
         {overrideMaterial = errorMaterial };

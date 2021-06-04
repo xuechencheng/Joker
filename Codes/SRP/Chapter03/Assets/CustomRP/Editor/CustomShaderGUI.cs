@@ -10,15 +10,11 @@ public class CustomShaderGUI : ShaderGUI
     Object[] materials;
     MaterialProperty[] properties;
     bool showPresets;
-    public override void OnGUI(
-        MaterialEditor materialEditor, MaterialProperty[] properties
-    )
-    {
+    public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties){
         base.OnGUI(materialEditor, properties);
         editor = materialEditor;
         materials = materialEditor.targets;
         this.properties = properties;
-
         EditorGUILayout.Space();
         showPresets = EditorGUILayout.Foldout(showPresets, "Presets", true);
         if (showPresets)

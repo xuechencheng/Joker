@@ -15,7 +15,6 @@
     }
     SubShader
     {     
-
         Pass
         {
 		   //定义混合模式

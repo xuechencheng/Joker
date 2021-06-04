@@ -12,7 +12,6 @@ public partial class CameraRenderer
     partial void DrawUnsupportedShaders();
     partial void DrawGizmos();
     partial void PrepareForSceneWindow();
-
     partial void PrepareBuffer();
 #if UNITY_EDITOR
     //SRP不支持的着色器标签类型
@@ -39,7 +38,6 @@ public partial class CameraRenderer
         {
             errorMaterial = new Material(Shader.Find("Hidden/InternalErrorShader"));
         }
-         
         //数组第一个元素用来构造DrawingSettings的时候设置
         var drawingSettings = new DrawingSettings(legacyShaderTagIds[0], new SortingSettings(camera))
         {overrideMaterial = errorMaterial };

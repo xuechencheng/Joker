@@ -7,13 +7,9 @@ using UnityEngine.Rendering;
 /// </summary>
 public partial class CameraRenderer
 {
-
     ScriptableRenderContext context;
-
     Camera camera;
-
     const string bufferName = "Render Camera";
-
     CommandBuffer buffer = new CommandBuffer
     {
         name = bufferName
@@ -24,8 +20,7 @@ public partial class CameraRenderer
     /// <summary>
     /// 相机渲染
     /// </summary>
-    public void Render(ScriptableRenderContext context, Camera camera,
-        bool useDynamicBatching, bool useGPUInstancing)
+    public void Render(ScriptableRenderContext context, Camera camera, bool useDynamicBatching, bool useGPUInstancing)
     {
         this.context = context;
         this.camera = camera;
@@ -33,25 +28,20 @@ public partial class CameraRenderer
         PrepareBuffer();
         // 在Game视图绘制的几何体也绘制到Scene视图中
         PrepareForSceneWindow();
-
         if (!Cull())
         {
             return;
         }
-
         Setup();
         //绘制几何体
         DrawVisibleGeometry(useDynamicBatching, useGPUInstancing);
         //绘制SRP不支持的内置shader类型
         DrawUnsupportedShaders();
-
         //绘制Gizmos
         DrawGizmos();
-
         //提交命令缓冲区
         Submit();
     }
-
     /// <summary>
     /// 绘制几何体
     /// </summary>
@@ -73,17 +63,14 @@ public partial class CameraRenderer
         var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
         //1.绘制不透明物体
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
-        
         //2.绘制天空盒
         context.DrawSkybox(camera);
-
         sortingSettings.criteria = SortingCriteria.CommonTransparent;
         drawingSettings.sortingSettings = sortingSettings;
         //只绘制RenderQueue为transparent透明的物体
         filteringSettings.renderQueueRange = RenderQueueRange.transparent;
         //3.绘制透明物体
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
-
     }
     /// <summary>
     /// 提交命令缓冲区
@@ -107,7 +94,6 @@ public partial class CameraRenderer
             flags == CameraClearFlags.Color ? camera.backgroundColor.linear : Color.clear);
         buffer.BeginSample(SampleName);     
         ExecuteBuffer();
-        
     }
     /// <summary>
     /// 执行缓冲区命令
@@ -124,7 +110,6 @@ public partial class CameraRenderer
     bool Cull()
     {
         ScriptableCullingParameters p;
-
         if (camera.TryGetCullingParameters(out p))
         {
             cullingResults = context.Cull(ref p);

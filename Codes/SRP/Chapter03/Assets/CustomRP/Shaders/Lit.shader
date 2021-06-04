@@ -20,13 +20,11 @@
     }
     SubShader
     {     
-
         Pass
         {
 		   Tags {
 				"LightMode" = "CustomLit"
 			}
-
 		   //定义混合模式
 		   Blend[_SrcBlend][_DstBlend]
 		   //是否写入深度

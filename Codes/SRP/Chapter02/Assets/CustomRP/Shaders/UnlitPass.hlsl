@@ -23,8 +23,6 @@ struct Varyings {
 	float2 baseUV : VAR_BASE_UV;
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 };
-
-
 //顶点函数
 Varyings UnlitPassVertex(Attributes input){
 	Varyings output;

@@ -7,13 +7,9 @@ using UnityEngine.Rendering;
 /// </summary>
 public partial class CameraRenderer
 {
-
     ScriptableRenderContext context;
-
     Camera camera;
-
     const string bufferName = "Render Camera";
-
     CommandBuffer buffer = new CommandBuffer
     {
         name = bufferName
@@ -36,23 +32,18 @@ public partial class CameraRenderer
         PrepareBuffer();
         // 在Game视图绘制的几何体也绘制到Scene视图中
         PrepareForSceneWindow();
-
         if (!Cull())
         {
             return;
         }
-
         Setup();
         lighting.Setup(context, cullingResults);
-
         //绘制几何体
         DrawVisibleGeometry(useDynamicBatching, useGPUInstancing);
         //绘制SRP不支持的内置shader类型
         DrawUnsupportedShaders();
-
         //绘制Gizmos
         DrawGizmos();
-
         //提交命令缓冲区
         Submit();
     }
@@ -80,17 +71,14 @@ public partial class CameraRenderer
         var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
         //1.绘制不透明物体
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
-        
         //2.绘制天空盒
         context.DrawSkybox(camera);
-
         sortingSettings.criteria = SortingCriteria.CommonTransparent;
         drawingSettings.sortingSettings = sortingSettings;
         //只绘制RenderQueue为transparent透明的物体
         filteringSettings.renderQueueRange = RenderQueueRange.transparent;
         //3.绘制透明物体
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
-
     }
     /// <summary>
     /// 提交命令缓冲区

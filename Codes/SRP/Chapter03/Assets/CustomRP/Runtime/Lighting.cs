@@ -8,25 +8,20 @@ public class Lighting
 {
 
 	const string bufferName = "Lighting";
-
 	CommandBuffer buffer = new CommandBuffer
 	{
 		name = bufferName
 	};
     //设置最大可见定向光数量
     const int maxDirLightCount = 4;
-
-
     static int dirLightCountId = Shader.PropertyToID("_DirectionalLightCount");
     static int dirLightColorsId = Shader.PropertyToID("_DirectionalLightColors");
     static int dirLightDirectionsId = Shader.PropertyToID("_DirectionalLightDirections");
     //存储定向光的颜色和方向
     static Vector4[] dirLightColors = new Vector4[maxDirLightCount];
     static Vector4[] dirLightDirections = new Vector4[maxDirLightCount];
-
     //存储相机剔除后的结果
     CullingResults cullingResults;
-
     //初始化设置
     public void Setup(ScriptableRenderContext context, CullingResults cullingResults)
 	{
@@ -57,7 +52,6 @@ public class Lighting
     void SetupLights() {
         //得到所有影响相机渲染物体的可见光数据
         NativeArray<VisibleLight> visibleLights = cullingResults.visibleLights;
-        
         int dirLightCount = 0;
         for (int i = 0; i < visibleLights.Length; i++)
         {

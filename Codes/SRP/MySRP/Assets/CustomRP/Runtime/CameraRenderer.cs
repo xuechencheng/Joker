@@ -5,14 +5,11 @@ public partial class CameraRenderer
     ScriptableRenderContext context;
     Camera camera;
     const string bufferName = "Render Camera";
-    CommandBuffer buffer = new CommandBuffer
-    {
-        name = bufferName
-    };
+    CommandBuffer buffer = new CommandBuffer{ name = bufferName};
     //存储相机剔除后的结果
     CullingResults cullingResults;
     static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");//???
-    public void Render(ScriptableRenderContext context, Camera camera)
+    public void Render(ScriptableRenderContext context, Camera camera, bool useDynamicBatching, bool useGPUInstancing)
     {
         this.context = context;
         this.camera = camera;
@@ -22,7 +19,7 @@ public partial class CameraRenderer
             return;
         }
         Setup();
-        DrawVisibleGeometry();
+        DrawVisibleGeometry(useDynamicBatching, useGPUInstancing);
         DrawUnsupportedShaders();
         DrawGizmos();
         Submit();
@@ -40,8 +37,7 @@ public partial class CameraRenderer
     /// <summary>
     /// 设置相机属性
     /// </summary>
-    void Setup()
-    {
+    void Setup(){
         //设置相机的属性和矩阵
         context.SetupCameraProperties(camera);
         CameraClearFlags flags = camera.clearFlags;
@@ -51,11 +47,14 @@ public partial class CameraRenderer
         buffer.BeginSample(SampleName);
         ExecuteBuffer();
     }
-    void DrawVisibleGeometry()
+    void DrawVisibleGeometry(bool useDynamicBatching, bool useGPUInstancing)
     {
         //1.绘制不透明物体
         var sortingSettings = new SortingSettings(camera){criteria = SortingCriteria.CommonOpaque};
-        var drawingSettings = new DrawingSettings(unlitShaderTagId, sortingSettings);
+        var drawingSettings = new DrawingSettings(unlitShaderTagId, sortingSettings) {
+            enableDynamicBatching = useDynamicBatching,
+            enableInstancing = useGPUInstancing
+        };
         var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
         //2.绘制天空盒

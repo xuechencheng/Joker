@@ -41,13 +41,9 @@ public partial class CameraRenderer
             context.DrawGizmos(camera, GizmoSubset.PostImageEffects);
         }
     }
-    /// <summary>
-    /// 在Game视图绘制的几何体也绘制到Scene视图中
-    /// </summary>
     partial void PrepareForSceneWindow()
     {
         if (camera.cameraType == CameraType.SceneView){
-            //如果切换到了Scene视图，调用此方法完成绘制
             ScriptableRenderContext.EmitWorldGeometryForSceneView(camera);
         }
     }

@@ -8,7 +8,9 @@ public partial class CameraRenderer
     CommandBuffer buffer = new CommandBuffer{ name = bufferName};
     //存储相机剔除后的结果
     CullingResults cullingResults;
+    Lighting lighting = new Lighting();
     static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");//???
+    static ShaderTagId litShaderTagId = new ShaderTagId("CustomLit");
     public void Render(ScriptableRenderContext context, Camera camera, bool useDynamicBatching, bool useGPUInstancing)
     {
         this.context = context;
@@ -19,6 +21,7 @@ public partial class CameraRenderer
             return;
         }
         Setup();
+        lighting.Setup(context, cullingResults);
         DrawVisibleGeometry(useDynamicBatching, useGPUInstancing);
         DrawUnsupportedShaders();
         DrawGizmos();
@@ -55,6 +58,7 @@ public partial class CameraRenderer
             enableDynamicBatching = useDynamicBatching,
             enableInstancing = useGPUInstancing
         };
+        drawingSettings.SetShaderPassName(1, litShaderTagId);
         var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
         //2.绘制天空盒

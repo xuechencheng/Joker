@@ -56,11 +56,13 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CustomRP\Runtime\Shadows.cs" />
     <Compile Include="Assets\CustomRP\Examples\PerObjectMaterialProperties.cs" />
     <Compile Include="Assets\CustomRP\Runtime\Lighting.cs" />
     <Compile Include="Assets\CustomRP\Examples\MeshBall.cs" />
     <Compile Include="Assets\CustomRP\Runtime\CustomRenderPipeline.cs" />
     <Compile Include="Assets\CustomRP\Runtime\CameraRenderer.cs" />
+    <Compile Include="Assets\CustomRP\Settings\ShadowSettings.cs" />
     <Compile Include="Assets\CustomRP\Runtime\CameraRenderer.Editor.cs" />
     <Compile Include="Assets\CustomRP\Runtime\CustomRenderPineAsset.cs" />
   </ItemGroup>
@@ -73,7 +75,9 @@
      <None Include="Assets\CustomRP\ShaderLibrary\Surface.hlsl" />
      <None Include="Assets\CustomRP\ShaderLibrary\Lighting.hlsl" />
      <None Include="Assets\CustomRP\ShaderLibrary\Common.hlsl" />
+     <None Include="Assets\CustomRP\Shaders\ShadowCasterPass.hlsl" />
      <None Include="Assets\CustomRP\Shaders\Unlit.shader" />
+     <None Include="Assets\CustomRP\ShaderLibrary\Shadows.hlsl" />
      <None Include="Assets\CustomRP\ShaderLibrary\BRDF.hlsl" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.1f1c1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

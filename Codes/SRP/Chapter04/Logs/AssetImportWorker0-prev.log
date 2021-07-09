@@ -15,11 +15,11 @@ D:/Joker/Codes/SRP/Chapter04
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-58037
+54948
 Successfully changed project path to: D:/Joker/Codes/SRP/Chapter04
 D:/Joker/Codes/SRP/Chapter04
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 33.38 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 19.74 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.3.1f1c1 (3e9f4b065a9d)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.1f1c1/Editor/Data/Resources/UnitySubsystems
@@ -35,88 +35,65 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.1f1c1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.1f1c1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.1f1c1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56888
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56112
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.1f1c1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.001308 seconds.
+Registered in 0.001307 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 20.60 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 24.17 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.390 seconds
+- Completed reload, in  1.420 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.000532 seconds.
+Registered in 0.000604 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 20.11 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 23.88 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.656 seconds
+- Completed reload, in  0.731 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
-Refreshing native plugins compatible for Editor in 0.23 ms, found 0 plugins.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Refreshing native plugins compatible for Editor in 0.22 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 1298 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 63.5 MB.
 System memory in use after: 63.6 MB.
 
 Unloading 10 unused Assets to reduce memory usage. Loaded Objects now: 1742.
-Total: 1.304100 ms (FindLiveObjects: 0.123400 ms CreateObjectMapping: 0.036900 ms MarkObjects: 1.092900 ms  DeleteObjects: 0.049900 ms)
+Total: 1.746400 ms (FindLiveObjects: 0.235200 ms CreateObjectMapping: 0.041100 ms MarkObjects: 1.415700 ms  DeleteObjects: 0.053300 ms)
 
 ========================================================================
 Received Import Request.
-  path: Assets/CustomRP/Settings/ShadowSettings.cs
-  artifactKey: Guid(2c7f9766ff964454ab12d7c132e3cfef) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/CustomRP/Settings/ShadowSettings.cs using Guid(2c7f9766ff964454ab12d7c132e3cfef) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd9aefb82f24cbcb4d907ac63e95d6eaf') in 0.012468 seconds
-  Import took 0.014115 seconds .
+  path: Assets/CustomRP/Runtime/CameraRenderer.cs
+  artifactKey: Guid(3c738f303cceaad4981c447dff5b7ec0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CustomRP/Runtime/CameraRenderer.cs using Guid(3c738f303cceaad4981c447dff5b7ec0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '86d767316cc5c73d0f3b4bbd88e83ede') in 0.013011 seconds
+  Import took 0.014707 seconds .
 
 ========================================================================
 Received Import Request.
-  Time since last request: 2145.674363 seconds.
-  path: Assets/Scene/Scene4
-  artifactKey: Guid(6771f8188c438714ca76f17b292b4d7b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scene/Scene4 using Guid(6771f8188c438714ca76f17b292b4d7b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e754ce5542f052eb166d477bc7efcf69') in 0.001557 seconds
-  Import took 0.003467 seconds .
+  Time since last request: 0.000298 seconds.
+  path: Assets/CustomRP/Runtime
+  artifactKey: Guid(3e2f90b7e1605294a96e0a8e293e3fde) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CustomRP/Runtime using Guid(3e2f90b7e1605294a96e0a8e293e3fde) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '480b213699707a98fac9262c457ebb25') in 0.001289 seconds
+  Import took 0.002748 seconds .
 
 ========================================================================
 Received Import Request.
-  Time since last request: 17.657014 seconds.
-  path: Assets/Scene/Scene4/Materials
-  artifactKey: Guid(2318a14d0d6f7eb469e526f399f76faf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scene/Scene4/Materials using Guid(2318a14d0d6f7eb469e526f399f76faf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '11779cb4e103c46bd6f3a854a2e011fc') in 0.001634 seconds
-  Import took 0.003284 seconds .
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.000602 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.22 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  0.660 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.22 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1286 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 62.9 MB.
-System memory in use after: 63.0 MB.
-
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1745.
-Total: 1.256100 ms (FindLiveObjects: 0.138300 ms CreateObjectMapping: 0.042400 ms MarkObjects: 1.063000 ms  DeleteObjects: 0.011400 ms)
+  Time since last request: 509.469877 seconds.
+  path: Assets/CustomRP/Assets/CustomRP.asset
+  artifactKey: Guid(492f0eae5fd70a04e936158214ac1be6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CustomRP/Assets/CustomRP.asset using Guid(492f0eae5fd70a04e936158214ac1be6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bf4c154f1de053da70e2932a34d80055') in 0.013595 seconds
+  Import took 0.015529 seconds .
 
 AssetImportWorkerClient::OnTransportError - code=2 error=End of file

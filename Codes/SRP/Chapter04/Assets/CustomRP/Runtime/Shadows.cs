@@ -144,7 +144,7 @@ public class Shadows
 		int cascadeCount = settings.directional.cascadeCount;
 		int tileOffset = index * cascadeCount;
 		Vector3 ratios = settings.directional.CascadeRatios;
-        float cullingFactor = Mathf.Max(0f, 0.8f - settings.directional.cascadeFade);
+        float cullingFactor = Mathf.Max(0f, 0.8f - settings.directional.cascadeFade);//TODO
         for (int i = 0;i < cascadeCount;i++)
         {
 			//计算视图和投影矩阵和裁剪空间的立方体
@@ -166,7 +166,7 @@ public class Shadows
 			dirShadowMatrices[tileIndex] = ConvertToAtlasMatrix(projectionMatrix * viewMatrix,SetTileViewport(tileIndex, split, tileSize), split);
 			//设置视图投影矩阵
 			buffer.SetViewProjectionMatrices(viewMatrix, projectionMatrix);
-            //设置斜度比例偏差值
+            //设置斜度比例偏差值，深度偏差和斜度偏差
             buffer.SetGlobalDepthBias(0, light.slopeScaleBias);
             //绘制阴影
             ExecuteBuffer();
@@ -184,9 +184,9 @@ public class Shadows
 	{
 		//包围球半径除以阴影图块大小=近似纹素大小
 		float texelSize = 2f * cullingSphere.w / tileSize;
-        float filterSize = texelSize * ((float)settings.directional.filter + 1f);
+        float filterSize = texelSize * ((float)settings.directional.filter + 1f);//TODO
         //得到半径的平方值
-        cullingSphere.w -= filterSize;
+        cullingSphere.w -= filterSize;//TODO
         cullingSphere.w *= cullingSphere.w;
 		cascadeCullingSpheres[index] = cullingSphere;
 		cascadeData[index] = new Vector4(1f / cullingSphere.w, filterSize * 1.4142136f);

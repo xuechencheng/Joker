@@ -31,9 +31,9 @@
 		   ZWrite[_ZWrite]
            HLSLPROGRAM
 		   #pragma target 3.5
-		  #pragma shader_feature _CLIPPING
+		   #pragma shader_feature _CLIPPING
 		   //是否透明通道预乘
-		  #pragma shader_feature _PREMULTIPLY_ALPHA
+		   #pragma shader_feature _PREMULTIPLY_ALPHA
            #pragma multi_compile_instancing
            #pragma vertex LitPassVertex
            #pragma fragment LitPassFragment

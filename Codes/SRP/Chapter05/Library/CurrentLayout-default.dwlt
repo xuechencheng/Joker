@@ -153,7 +153,7 @@ MonoBehaviour:
   m_MinSize: {x: 709, y: 492}
   m_MaxSize: {x: 18004, y: 14042}
   vertical: 0
-  controlID: 164
+  controlID: 161
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 3e3d0000
+      m_SelectedIDs: 88010000
       m_LastClickedID: 0
       m_ExpandedIDs: 52fbffff
       m_RenameOverlay:
@@ -463,22 +463,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/CustomRP/ShaderLibrary
+    - Assets/CustomRP/Shaders
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/CustomRP/ShaderLibrary
+  - Assets/CustomRP/Shaders
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\Joker\Codes\SRP\Chapter05
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 263d0000
-    m_LastClickedID: 15654
-    m_ExpandedIDs: 000000000e3d0000103d0000123d0000143d000000ca9a3b
+    m_SelectedIDs: 2a3d0000
+    m_LastClickedID: 15658
+    m_ExpandedIDs: 00000000103d0000123d0000143d0000163d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -506,7 +506,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000000e3d0000103d0000123d0000143d0000
+    m_ExpandedIDs: 00000000103d0000123d0000143d0000163d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

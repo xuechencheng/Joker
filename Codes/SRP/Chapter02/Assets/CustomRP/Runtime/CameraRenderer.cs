@@ -18,7 +18,7 @@ public partial class CameraRenderer
     CullingResults cullingResults;
     static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
     /// <summary>
-    /// 相机渲染
+    /// 相机渲染 Done
     /// </summary>
     public void Render(ScriptableRenderContext context, Camera camera, bool useDynamicBatching, bool useGPUInstancing)
     {
@@ -43,7 +43,7 @@ public partial class CameraRenderer
         Submit();
     }
     /// <summary>
-    /// 绘制几何体
+    /// 绘制几何体 Done
     /// </summary>
     void DrawVisibleGeometry(bool useDynamicBatching, bool useGPUInstancing)
     {
@@ -73,7 +73,7 @@ public partial class CameraRenderer
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
     }
     /// <summary>
-    /// 提交命令缓冲区
+    /// 提交命令缓冲区 Done
     /// </summary>
     void Submit()
     {
@@ -82,7 +82,7 @@ public partial class CameraRenderer
         context.Submit();
     }
     /// <summary>
-    /// 设置相机的属性和矩阵
+    /// 设置相机的属性和矩阵 Done
     /// </summary>
     void Setup()
     {
@@ -96,7 +96,7 @@ public partial class CameraRenderer
         ExecuteBuffer();
     }
     /// <summary>
-    /// 执行缓冲区命令
+    /// 执行缓冲区命令 Done
     /// </summary>
     void ExecuteBuffer()
     {
@@ -104,7 +104,7 @@ public partial class CameraRenderer
         buffer.Clear();
     }
     /// <summary>
-    /// 剔除
+    /// 剔除 Done
     /// </summary>
     /// <returns></returns>
     bool Cull()

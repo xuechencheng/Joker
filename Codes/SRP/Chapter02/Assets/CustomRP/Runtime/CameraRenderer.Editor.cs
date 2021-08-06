@@ -29,7 +29,7 @@ public partial class CameraRenderer
     string SampleName { get; set; }
 
     /// <summary>
-    /// 绘制SRP不支持的内置shader类型
+    /// 绘制SRP不支持的内置shader类型 Done
     /// </summary>
     partial void DrawUnsupportedShaders()
     {
@@ -51,7 +51,7 @@ public partial class CameraRenderer
         //绘制不支持的shaderTag类型的物体
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
     }
-    //绘制DrawGizmos
+    //绘制DrawGizmos Done
     partial void DrawGizmos()
     {
         if (Handles.ShouldRenderGizmos())
@@ -61,7 +61,7 @@ public partial class CameraRenderer
         }
     }
     /// <summary>
-    /// 在Game视图绘制的几何体也绘制到Scene视图中
+    /// 在Game视图绘制的几何体也绘制到Scene视图中 Done
     /// </summary>
     partial void PrepareForSceneWindow()
     {
@@ -73,7 +73,7 @@ public partial class CameraRenderer
     }
 
     /// <summary>
-    /// 设置buffer缓冲区的名字
+    /// 设置buffer缓冲区的名字 Done
     /// </summary>
     partial void PrepareBuffer()
     {

@@ -14,48 +14,36 @@ public partial class CameraRenderer
     {
         name = bufferName
     };
-    //存储相机剔除后的结果
     CullingResults cullingResults;
-    static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");//???
+    static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
     /// <summary>
-    /// 相机渲染
+    /// Done
     /// </summary>
+    /// <param name="context"></param>
+    /// <param name="camera"></param>
     public void Render(ScriptableRenderContext context, Camera camera)
     {
         this.context = context;
         this.camera = camera;
-        //设置buffer缓冲区的名字
         PrepareBuffer();
-        // 在Game视图绘制的几何体也绘制到Scene视图中
         PrepareForSceneWindow();
-        if (!Cull())
-        {
+        if (!Cull()){
             return;
         }
         Setup();
-        //绘制几何体
         DrawVisibleGeometry();
-        //绘制SRP不支持的内置shader类型
         DrawUnsupportedShaders();
-        //绘制Gizmos
         DrawGizmos();
-        //提交命令缓冲区
         Submit();
     }
 
     /// <summary>
-    /// 绘制几何体
+    /// Done
     /// </summary>
     void DrawVisibleGeometry()
     {
-        //设置绘制顺序和指定渲染相机
-        var sortingSettings = new SortingSettings(camera)
-        {
-            criteria = SortingCriteria.CommonOpaque
-        };
-        //设置渲染的shader pass和渲染排序
+        var sortingSettings = new SortingSettings(camera){ criteria = SortingCriteria.CommonOpaque};
         var drawingSettings = new DrawingSettings(unlitShaderTagId, sortingSettings);
-        ////只绘制RenderQueue为opaque不透明的物体
         var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
         //1.绘制不透明物体
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
@@ -63,13 +51,12 @@ public partial class CameraRenderer
         context.DrawSkybox(camera);
         sortingSettings.criteria = SortingCriteria.CommonTransparent;
         drawingSettings.sortingSettings = sortingSettings;
-        //只绘制RenderQueue为transparent透明的物体
         filteringSettings.renderQueueRange = RenderQueueRange.transparent;
         //3.绘制透明物体
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
     }
     /// <summary>
-    /// 提交命令缓冲区
+    /// Done
     /// </summary>
     void Submit()
     {
@@ -78,22 +65,19 @@ public partial class CameraRenderer
         context.Submit();
     }
     /// <summary>
-    /// 设置相机的属性和矩阵
+    /// Done
     /// </summary>
     void Setup()
     {
-        //设置相机的属性和矩阵
         context.SetupCameraProperties(camera);
-        //得到相机的clear flags
         CameraClearFlags flags = camera.clearFlags;
-        //设置相机清除状态
         buffer.ClearRenderTarget(flags <= CameraClearFlags.Depth, flags == CameraClearFlags.Color, 
             flags == CameraClearFlags.Color ? camera.backgroundColor.linear : Color.clear);
         buffer.BeginSample(SampleName);     
         ExecuteBuffer();
     }
     /// <summary>
-    /// 执行缓冲区命令
+    /// Done
     /// </summary>
     void ExecuteBuffer()
     {
@@ -101,7 +85,7 @@ public partial class CameraRenderer
         buffer.Clear();
     }
     /// <summary>
-    /// 剔除
+    /// Done
     /// </summary>
     /// <returns></returns>
     bool Cull()

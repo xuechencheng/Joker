@@ -19,7 +19,7 @@ public class Lighting
     //存储定向光的颜色和方向
     static Vector4[] dirLightColors = new Vector4[maxDirLightCount];
     static Vector4[] dirLightDirections = new Vector4[maxDirLightCount];
-    //存储定向光的阴影数据
+    //存储定向光的阴影数据    阴影强度、阴影图块的偏移索引、法线偏差
     static Vector4[] dirLightShadowData = new Vector4[maxDirLightCount];
     //存储相机剔除后的结果
     CullingResults cullingResults;
@@ -65,7 +65,6 @@ public class Lighting
         for (int i = 0; i < visibleLights.Length; i++)
         {
             VisibleLight visibleLight = visibleLights[i];
-
             if (visibleLight.lightType == LightType.Directional)
             {
                 //VisibleLight结构很大,我们改为传递引用不是传递值，这样不会生成副本

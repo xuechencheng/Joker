@@ -199,7 +199,7 @@ MonoBehaviour:
   m_MinSize: {x: 201, y: 442}
   m_MaxSize: {x: 4001, y: 8042}
   vertical: 1
-  controlID: 60
+  controlID: 16
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 88010000
+      m_SelectedIDs: 5a3d0000
       m_LastClickedID: 0
       m_ExpandedIDs: 52fbffff
       m_RenameOverlay:
@@ -463,21 +463,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/CustomRP/Shaders
+    - Assets/CustomRP/ShaderLibrary
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/CustomRP/Shaders
+  - Assets/CustomRP/ShaderLibrary
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\Joker\Codes\SRP\Chapter05
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 2a3d0000
-    m_LastClickedID: 15658
+    m_SelectedIDs: 283d0000
+    m_LastClickedID: 15656
     m_ExpandedIDs: 00000000103d0000123d0000143d0000163d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -494,7 +494,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 2}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -537,18 +537,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: 00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: CameraRenderer
+      m_OriginalName: CameraRenderer
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 2906
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 2}
     m_CreateAssetUtility:
@@ -632,18 +632,18 @@ MonoBehaviour:
       y: 21
       width: 1480
       height: 595
-    m_Scale: {x: 1.1865501, y: 1.1865501}
-    m_Translation: {x: 740, y: 312.19968}
+    m_Scale: {x: 1.1509537, y: 1.1509537}
+    m_Translation: {x: 747.92004, y: 311.5937}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -623.65674
-      y: -263.11545
-      width: 1247.3135
-      height: 501.45374
+      x: -649.82635
+      y: -270.72653
+      width: 1285.8901
+      height: 516.9626
     m_MinimalGUI: 1
   m_defaultScale: 0.41319445
   m_LastWindowPixelSize: {x: 2220, y: 924}

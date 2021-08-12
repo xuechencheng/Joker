@@ -1,0 +1,153 @@
+Using pre-set license
+Built from '2020.3/china_unity/release' branch; Version is '2020.3.1f1c1 (3e9f4b065a9d) revision 4104011'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10 Home China; OS build 19042.1110; Version 2009; 64bit' Language: 'zh' Physical Memory: 65249 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+ COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2020.3.1f1c1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+D:/Joker/Codes/ImpostorStudy
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+50589
+Successfully changed project path to: D:/Joker/Codes/ImpostorStudy
+D:/Joker/Codes/ImpostorStudy
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 18.02 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2020.3.1f1c1 (3e9f4b065a9d)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.1f1c1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path D:/Joker/Codes/ImpostorStudy/Assets
+GfxDevice: creating device client; threaded=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 2060 (ID=0x1f08)
+    Vendor:   
+    VRAM:     5980 MB
+    Driver:   27.21.14.6172
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.1f1c1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.1f1c1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.1f1c1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56292
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.1f1c1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001385 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 18.14 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.598 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.000312 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.30 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.734 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.06 seconds
+Refreshing native plugins compatible for Editor in 0.18 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1131 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 58.4 MB.
+System memory in use after: 58.4 MB.
+
+Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 1572.
+Total: 2.310100 ms (FindLiveObjects: 0.184300 ms CreateObjectMapping: 0.046700 ms MarkObjects: 1.956300 ms  DeleteObjects: 0.121000 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/AmplifyImpostors/Plugins/Scripts/BakeHDRPTool/BakeHDRPTool.cs
+  artifactKey: Guid(e367a26cc52b15240b9dfc03c3537c16) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/AmplifyImpostors/Plugins/Scripts/BakeHDRPTool/BakeHDRPTool.cs using Guid(e367a26cc52b15240b9dfc03c3537c16) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f49b4866a5e94675d85fff65dca5cf64') in 0.018561 seconds
+  Import took 0.020475 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000307 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.18 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.607 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.16 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1107 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 57.5 MB.
+System memory in use after: 57.6 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 1567.
+Total: 1.196800 ms (FindLiveObjects: 0.112900 ms CreateObjectMapping: 0.032400 ms MarkObjects: 1.034500 ms  DeleteObjects: 0.016100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000585 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.18 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.617 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.17 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1129 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 61.1 MB.
+System memory in use after: 58.9 MB.
+
+Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 1581.
+Total: 2.437300 ms (FindLiveObjects: 0.111000 ms CreateObjectMapping: 0.030000 ms MarkObjects: 1.068200 ms  DeleteObjects: 1.227200 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 148.040877 seconds.
+  path: Assets/AmplifyImpostors/Examples/SamplesURP.unitypackage
+  artifactKey: Guid(6f96487bc3191794ebde236cdf81f719) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/AmplifyImpostors/Examples/SamplesURP.unitypackage using Guid(6f96487bc3191794ebde236cdf81f719) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '865b8e22e4e3fe628130086e8dc744f9') in 0.026177 seconds
+  Import took 0.027814 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 16.857587 seconds.
+  path: Assets/AmplifyImpostors/Plugins/Scripts/AmplifyImpostor.cs
+  artifactKey: Guid(fadcc2d9a34a1a34f93d4962ec37e6e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/AmplifyImpostors/Plugins/Scripts/AmplifyImpostor.cs using Guid(fadcc2d9a34a1a34f93d4962ec37e6e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cf43e2729cd22e67d0ef7b0ac65649f2') in 0.001358 seconds
+  Import took 0.002962 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002866 seconds.
+  path: Assets/AmplifyImpostors/Plugins/Scripts/AmplifyImpostor.cs
+  artifactKey: Guid(fadcc2d9a34a1a34f93d4962ec37e6e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/AmplifyImpostors/Plugins/Scripts/AmplifyImpostor.cs using Guid(fadcc2d9a34a1a34f93d4962ec37e6e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cf43e2729cd22e67d0ef7b0ac65649f2') in 0.001180 seconds
+  Import took 0.002727 seconds .
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file

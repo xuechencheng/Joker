@@ -9,7 +9,7 @@
 //#define AI_CLIP_NEIGHBOURS_FRAMES
 
 // don't touch the next define, it's automatically set by script
-#define AI_HDRP_VERSION 60901
-#define AI_LWRP_VERSION 60901
+#define AI_HDRP_VERSION 999999
+#define AI_LWRP_VERSION 999999
 
 #endif //AMPLIFYIMPOSTORSCONFIG_INCLUDED

@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -13,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Material: {fileID: 21272934253153140}
   Mesh: {fileID: 43322732915683226}
-  Version: 9602
+  Version: 9711
   ImpostorType: 2
   LockedSizes: 1
   SelectedSize: 2048
@@ -76,8 +77,9 @@ MonoBehaviour:
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Tree_Impostor
   m_Shader: {fileID: 4800000, guid: 572f9be5706148142b8da6e9de53acdb, type: 3}
   m_ShaderKeywords: EFFECT_HUE_VARIATION _HEMI_ON
@@ -113,35 +115,38 @@ Material:
     - _Bias: -3
     - _Clip: 0.5
     - _ClipMask: 0.5
-    - _DepthSize: 18.016346
+    - _DepthSize: -24.147562
     - _Frames: 16
     - _Hemi: 1
     - _Hue: 1
-    - _ImpostorSize: 18.076916
+    - _ImpostorSize: -24.228745
     - _Parallax: 1
     - _ShadowBias: 0.4
     - _TextureBias: -1
     m_Colors:
-    - _AI_SizeOffset: {r: 18.076916, g: 18.016346, b: 0, a: -0.0004908377}
+    - _AI_SizeOffset: {r: -24.228745, g: -24.147562, b: -0, a: -0}
     - _HueVariation: {r: 1, g: 0.5019608, b: 0, a: 0.101960786}
-    - _Offset: {r: 0.22232056, g: 8.998086, b: -0.14837313, a: 0.007853403}
+    - _Offset: {r: 0.22232056, g: 8.998086, b: -0.14837313, a: 0}
+  m_BuildTextureStacks: []
 --- !u!43 &43322732915683226
 Mesh:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Tree_Impostor
-  serializedVersion: 8
+  serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
     indexCount: 18
     topology: 0
+    baseVertex: 0
     firstVertex: 0
     vertexCount: 8
     localAABB:
-      m_Center: {x: 0, y: -0.2831912, z: 0}
-      m_Extent: {x: 6.072714, y: 8.897232, z: 0}
+      m_Center: {x: 0, y: 0.18928719, z: 0}
+      m_Extent: {x: 8.139344, y: 11.925085, z: 0}
   m_Shapes:
     vertices: []
     shapes: []
@@ -150,14 +155,17 @@ Mesh:
   m_BindPose: []
   m_BoneNameHashes: 
   m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
   m_MeshCompression: 0
   m_IsReadable: 1
   m_KeepVertices: 1
   m_KeepIndices: 1
+  m_IndexFormat: 0
   m_IndexBuffer: 070005000300030001000700070006000500050004000300030002000100010000000700
-  m_Skin: []
   m_VertexData:
-    m_CurrentChannels: 11
+    serializedVersion: 3
     m_VertexCount: 8
     m_Channels:
     - stream: 0
@@ -168,6 +176,10 @@ Mesh:
       offset: 12
       format: 0
       dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
     - stream: 0
       offset: 0
       format: 0
@@ -192,8 +204,28 @@ Mesh:
       offset: 0
       format: 0
       dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
     m_DataSize: 256
-    _typelessdata: ac53c2c0bc9987c0000000000000000000000000000080bf0000283e00008c3e37b1a2bf03e312c1000000000000000000000000000080bf0000dc3e0000000098d8c63f03e312c1000000000000000000000000000080bf0000163f00000000ac53c240ef1574c0000000000000000000000000000080bf0000563f0000983eac53c240adacb43f000000000000000000000000000080bf0000563f0000163fe8c4b43f1cd30941000000000000000000000000000080bf0000143f00007c3f49ecd8bfa6900741000000000000000000000000000080bf0000d03e00007a3fac53c2c07294343f000000000000000000000000000080bf0000283e00000c3f
+    _typelessdata: c13a02418da8af40000000000000000000000000000080bf0000283e00008c3e070fda3f78d44141000000000000000000000000000080bf0000dc3e00000000124205c078d44141000000000000000000000000000080bf0000163f00000000c13a02c1a27c9d40000000000000000000000000000080bf0000563f0000983ec13a02c1124205c0000000000000000000000000000080bf0000563f0000163f9649f2bfd4c53bc1000000000000000000000000000080bf0000143f00007c3f5a5f114082be38c1000000000000000000000000000080bf0000d03e00007a3fc13a02415a5f91bf000000000000000000000000000080bf0000283e00000c3f
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
@@ -252,4 +284,11 @@ Mesh:
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshOptimized: 0
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 

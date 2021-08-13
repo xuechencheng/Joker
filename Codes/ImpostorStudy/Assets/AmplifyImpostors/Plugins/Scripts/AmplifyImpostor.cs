@@ -964,7 +964,9 @@ namespace AmplifyImpostors
 			}
 #endif
 		}
-
+		/// <summary>
+		/// 设置渲染管线信息和检测AmplifyImpostorBakePreset文件存在与否
+		/// </summary>
 		public void DetectRenderPipeline()
 		{
 			string pipelineName = string.Empty;
@@ -980,7 +982,6 @@ namespace AmplifyImpostors
 			{
 				pipelineName = "";
 			}
-
 			if( pipelineName.Contains( "LightweightRenderPipeline" ) )
 			{
 				m_renderPipelineInUse = RenderPipelineInUse.LW;
@@ -1001,18 +1002,15 @@ namespace AmplifyImpostors
 			{
 				m_renderPipelineInUse = RenderPipelineInUse.Custom;
 			}
-
 			bool missingFiles = false;
 			try
 			{
 				AmplifyImpostorBakePreset check = AssetDatabase.LoadAssetAtPath<AmplifyImpostorBakePreset>( AssetDatabase.GUIDToAssetPath( LWPreset ) );
 				if( check == null && m_renderPipelineInUse == RenderPipelineInUse.LW )
 					missingFiles = true;
-
 				check = AssetDatabase.LoadAssetAtPath<AmplifyImpostorBakePreset>( AssetDatabase.GUIDToAssetPath( UPreset ) );
 				if( check == null && m_renderPipelineInUse == RenderPipelineInUse.URP )
 					missingFiles = true;
-
 				check = AssetDatabase.LoadAssetAtPath<AmplifyImpostorBakePreset>( AssetDatabase.GUIDToAssetPath( HDPreset ) );
 				if( check == null && m_renderPipelineInUse == RenderPipelineInUse.HD )
 					missingFiles = true;
@@ -1021,7 +1019,6 @@ namespace AmplifyImpostors
 			{
 				missingFiles = true;
 			}
-
 			if( missingFiles && !string.IsNullOrEmpty( pipelineName ) )
 			{
 				m_renderPipelineInUse = RenderPipelineInUse.None;
@@ -1044,13 +1041,10 @@ namespace AmplifyImpostors
 			}
 			if( string.IsNullOrEmpty( folderPath ) )
 				return;
-
 			DisplayProgress( 0, "Please Wait... Setting up" );
 			string fileName = m_impostorName;
-
 			if( string.IsNullOrEmpty( fileName ) )
 				fileName = m_rootTransform.name + "_Impostor";
-
 			m_folderPath = folderPath;
 			folderPath = folderPath.TrimEnd( new char[] { '/', '*', '.', ' ' } );
 			folderPath += "/";
@@ -1058,9 +1052,7 @@ namespace AmplifyImpostors
 			m_impostorName = fileName;
 
 			Undo.RegisterCompleteObjectUndo( this, "Create Impostor" );
-
 			DetectRenderPipeline();
-
 			if( m_data == null )
 			{
 				AmplifyImpostorAsset existingAsset = AssetDatabase.LoadAssetAtPath<AmplifyImpostorAsset>( folderPath + fileName + ".asset" );
@@ -1073,23 +1065,19 @@ namespace AmplifyImpostors
 					m_data = ScriptableObject.CreateInstance<AmplifyImpostorAsset>();
 					AssetDatabase.CreateAsset( m_data, folderPath + fileName + ".asset" );
 				}
-
 				if( data != null )
 				{
 					m_data.ShapePoints = data.ShapePoints;
 				}
 			}
-			else
-			if( data != null )
+			else if( data != null )
 			{
 				m_data = data;
 			}
 			bool chache = GL.sRGBWrite;
 			GL.sRGBWrite = true;
-
 			if( !m_data.DecoupleAxisFrames )
 				m_data.HorizontalFrames = m_data.VerticalFrames;
-
 			if( m_data.Preset == null )
 			{
 				if( m_renderPipelineInUse == RenderPipelineInUse.HD )
@@ -1101,15 +1089,12 @@ namespace AmplifyImpostors
 				else
 					m_data.Preset = AssetDatabase.LoadAssetAtPath<AmplifyImpostorBakePreset>( AssetDatabase.GUIDToAssetPath( StandardPreset ) );
 			}
-
 			bool standardRendering = false;
 			if( m_data.Preset.BakeShader == null )
 				standardRendering = true;
-
 			List<TextureOutput> outputList = new List<TextureOutput>();
 			for( int i = 0; i < m_data.Preset.Output.Count; i++ )
 				outputList.Add( m_data.Preset.Output[ i ].Clone() );
-
 			for( int i = 0; i < m_data.OverrideOutput.Count && i < m_data.Preset.Output.Count; i++ )
 			{
 				if( ( m_data.OverrideOutput[ i ].OverrideMask & OverrideMask.OutputToggle ) == OverrideMask.OutputToggle )
@@ -1126,7 +1111,6 @@ namespace AmplifyImpostors
 					outputList[ m_data.OverrideOutput[ i ].Index ].ImageFormat = m_data.OverrideOutput[ i ].ImageFormat;
 			}
 			m_fileNames = new string[ outputList.Count ];
-			
 			string guid = string.Empty;
 			if( m_renderPipelineInUse == RenderPipelineInUse.HD )
 				guid = m_data.ImpostorType == ImpostorType.Spherical ? HDShaderGUID : HDShaderOctaGUID;

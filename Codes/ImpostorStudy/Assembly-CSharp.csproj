@@ -56,22 +56,23 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\HelperExtensions.cs" />
-    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\ImpostorBakingTools.cs" />
-    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\BakeHDRPTool\BakeHDRPTool.cs" />
-    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\AmplifyImpostor.cs" />
-    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\VersionInfo.cs" />
-    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\Triangulator.cs" />
-    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\AmplifyImpostorAsset.cs" />
-    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\AmplifyImpostorBakePreset.cs" />
-    <Compile Include="Assets\AmplifyImpostors\Examples\Assets\Scripts\ExtendedFlycam.cs" />
     <Compile Include="Assets\AmplifyImpostors\Examples\Assets\Scripts\ForestMaker.cs" />
+    <Compile Include="Assets\AmplifyImpostors\Examples\Assets\Scripts\ExtendedFlycam.cs" />
+    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\Triangulator.cs" />
+    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\HelperExtensions.cs" />
+    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\AmplifyImpostorAsset.cs" />
+    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\ImpostorBakingTools.cs" />
+    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\AmplifyImpostorBakePreset.cs" />
+    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\BakeHDRPTool\BakeHDRPTool.cs" />
+    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\VersionInfo.cs" />
+    <Compile Include="Assets\AmplifyImpostors\Plugins\Scripts\AmplifyImpostor.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\AmplifyImpostors\Plugins\EditorResources\Shaders\Runtime\AmplifyImpostorsTemplate.shader" />
      <None Include="Assets\AmplifyImpostors\Examples\Assets\Misc\StandardCrossfade.shader" />
      <None Include="Assets\AmplifyImpostors\Plugins\EditorResources\Shaders\Runtime\AmplifyImpostorsConfig.cginc" />
      <None Include="Assets\AmplifyImpostors\Plugins\EditorResources\Shaders\Baking\ShaderPacker.shader" />
+     <None Include="Assets\AmplifyImpostors\Plugins\EditorResources\Shaders\Runtime\OctahedronImpostorURP.shader" />
      <None Include="Assets\AmplifyImpostors\Examples\Scenes\CustomBaking\CustomImpostor\BakingColoredBarrels.shader" />
      <None Include="Assets\AmplifyImpostors\Examples\README Samples SRP.txt" />
      <None Include="Assets\AmplifyImpostors\Plugins\EditorResources\Shaders\Baking\ImpostorBakeTemplate.shader" />
@@ -81,8 +82,12 @@
      <None Include="Assets\AmplifyImpostors\Readme.txt" />
      <None Include="Assets\AmplifyImpostors\Plugins\EditorResources\Shaders\Runtime\AmplifyImpostors.cginc" />
      <None Include="Assets\AmplifyImpostors\Plugins\EditorResources\Shaders\Runtime\SphericalImpostor.shader" />
+     <None Include="Assets\AmplifyImpostors\Plugins\EditorResources\Shaders\Baking\BakingURP.shader" />
+     <None Include="Assets\AmplifyImpostors\Plugins\EditorResources\Shaders\Runtime\SphericalImpostorURP.shader" />
      <None Include="Assets\AmplifyImpostors\Examples\Assets\Misc\ColorByPosition.shader" />
      <None Include="Assets\AmplifyImpostors\Examples\Scenes\CustomBaking\CustomImpostor\RuntimeColoredBarrels.shader" />
+     <None Include="Assets\AmplifyImpostors\Plugins\EditorResources\Shaders\Runtime\AmplifyImpostorsTemplateURP.shader" />
+     <None Include="Assets\AmplifyImpostors\Plugins\EditorResources\Shaders\Baking\ImpostorBakeTemplateURP.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.1f1c1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -682,6 +687,42 @@
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Shaders">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Searcher.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ShaderGraph.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

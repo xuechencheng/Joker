@@ -49,12 +49,14 @@ namespace AmplifyImpostors
 		public static string GlobalEmissionOcclusion = string.Empty;
 		public static bool GlobalBakingOptions = true;
 		private static readonly GUIContent DefaultSuffixesLabel = new GUIContent( "Default Suffixes", "Default Suffixes for new Bake Presets" );
+		/// <summary>
+		/// 选择资源保存路径 Done
+		/// </summary>
 		public static string OpenFolderForImpostor( this AmplifyImpostor instance )
 		{
 			string oneLevelUp = Application.dataPath + "/../";
 			string directory = Path.GetFullPath( oneLevelUp ).Replace( "\\", "/" );
 			string objectPath = AssetDatabase.GetAssetPath( instance.RootTransform );
-
 			// Find Path next to prefab
 			if( string.IsNullOrEmpty( objectPath ) )
 			{
@@ -64,7 +66,6 @@ namespace AmplifyImpostors
 				objectPath = AssetDatabase.GetAssetPath( PrefabUtility.GetPrefabParent( instance.RootTransform ) );
 #endif
 			}
-
 			GlobalRelativeFolder = EditorPrefs.GetString( PrefGlobalRelativeFolder, "" );
 			string fullpath = string.Empty;
 			string suggestedRelativePath = directory + objectPath;
@@ -72,9 +73,7 @@ namespace AmplifyImpostors
 				suggestedRelativePath = Application.dataPath;
 			else
 				suggestedRelativePath = Path.GetDirectoryName( suggestedRelativePath ).Replace( "\\", "/" );
-
 			GlobalFolder = EditorPrefs.GetString( PrefGlobalFolder, "" );
-
 			// Find best match
 			if( GlobalDefaultMode && AssetDatabase.IsValidFolder( GlobalFolder.TrimStart( '/' ) ) )
 				fullpath = directory + GlobalFolder;
@@ -84,17 +83,11 @@ namespace AmplifyImpostors
 				fullpath = suggestedRelativePath;
 			else
 				fullpath = Application.dataPath;
-
 			string fileName = instance.name + "_Impostor";
 			if( !string.IsNullOrEmpty( instance.m_impostorName ) )
 				fileName = instance.m_impostorName;
-
-			//Debug.Log( fullpath );
-			//Debug.Log( fileName );
-
 			string folderpath = EditorUtility.SaveFilePanelInProject( "Save Impostor to folder", fileName, "asset", "", FileUtil.GetProjectRelativePath( fullpath ) );
 			fileName = Path.GetFileNameWithoutExtension( folderpath );
-
 			if( !string.IsNullOrEmpty( fileName ) )
 			{
 				folderpath = Path.GetDirectoryName( folderpath ).Replace( "\\", "/" );

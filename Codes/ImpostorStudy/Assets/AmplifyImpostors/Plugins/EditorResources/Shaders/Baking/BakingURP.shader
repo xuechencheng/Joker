@@ -37,56 +37,40 @@ Shader "Hidden/Baking URP"
         [HideInInspector] _GlossMapScale("Smoothness", Float) = 0.0
         [HideInInspector] _Glossiness("Smoothness", Float) = 0.0
         [HideInInspector] _GlossyReflections("EnvironmentReflections", Float) = 0.0
-		
     }
 
     SubShader
     {
 		LOD 0
-
-		
-
         Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Opaque" "Queue"="Geometry" }
         Cull Back
 		HLSLINCLUDE
 		#pragma target 3.0
 		ENDHLSL
-
-		
         Pass
         {
             Tags { "LightMode"="UniversalForward" }
             Name "Base"
-
             Blend One Zero
 			ZWrite On
 			ZTest LEqual
 			Offset 0 , 0
 			ColorMask RGBA
-			
-
             HLSLPROGRAM
             #define ASE_SRP_VERSION 70105
-
-            // Required to compile gles 2.0 with standard srp library
             #pragma prefer_hlslcc gles
             #pragma exclude_renderers d3d11_9x
-
             // -------------------------------------
             // Lightweight Pipeline keywords
             #pragma shader_feature _SAMPLE_GI
-
             // -------------------------------------
             // Unity defined keywords
             #pragma multi_compile_fog
-
             //--------------------------------------
             // GPU Instancing
             #pragma multi_compile_instancing
-            
             #pragma vertex vert
             #pragma fragment frag
-
             #pragma shader_feature _SPECULAR_SETUP
             #pragma shader_feature _METALLICSPECGLOSSMAP
             #pragma shader_feature _SPECGLOSSMAP
@@ -96,16 +80,11 @@ Shader "Hidden/Baking URP"
             #pragma shader_feature _EMISSION
             #pragma shader_feature _ALPHATEST_ON
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
-
-
             // Lighting include is needed because of GI
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
-
-			
-
             struct GraphVertexInput
             {
                 float4 vertex : POSITION;
@@ -114,18 +93,16 @@ Shader "Hidden/Baking URP"
 				float4 ase_tangent : TANGENT;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
-
             struct GraphVertexOutput
             {
                 float4 position : POSITION;
-				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord1 : TEXCOORD1;
-				float4 ase_texcoord2 : TEXCOORD2;
-				float4 ase_texcoord3 : TEXCOORD3;
+				float4 ase_texcoord : TEXCOORD0; //uv, eyeDepth
+				float4 ase_texcoord1 : TEXCOORD1; //worldTangent
+				float4 ase_texcoord2 : TEXCOORD2;//worldNormal
+				float4 ase_texcoord3 : TEXCOORD3;//worldBitangent
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
-
 			float2 AIBaseMapST( out float2 Offset )
 			{
 				#if UNITY_VERSION >= 201910
@@ -136,7 +113,7 @@ Shader "Hidden/Baking URP"
 					return _MainTex_ST.xy;
 				#endif
 			}
-			
+			//根据坐标填充各种数据
 			float3 AIUSurfaceOutput( float2 inputUv , out float3 albedo , out float3 normal , out float3 specular , out float smoothness , out float metallic , out float occlusion , out float3 emission , out float alpha )
 			{
 				SurfaceData surfaceData;
@@ -155,8 +132,6 @@ Shader "Hidden/Baking URP"
 				specular = brdfData.specular;
 				return surfaceData.albedo;
 			}
-			
-
             GraphVertexOutput vert (GraphVertexInput v)
             {
                 GraphVertexOutput o = (GraphVertexOutput)0;
@@ -173,9 +148,7 @@ Shader "Hidden/Baking URP"
 				float3 objectToViewPos = TransformWorldToView(TransformObjectToWorld(v.vertex.xyz));
 				float eyeDepth = -objectToViewPos.z;
 				o.ase_texcoord.z = eyeDepth;
-				
 				o.ase_texcoord.xy = v.ase_texcoord.xy;
-				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				o.ase_texcoord.w = 0;
 				o.ase_texcoord1.w = 0;
@@ -213,7 +186,6 @@ Shader "Hidden/Baking URP"
 				float alpha3_g8 = 0.0;
 				float3 localAIUSurfaceOutput3_g8 = AIUSurfaceOutput( inputUv3_g8 , albedo3_g8 , normal3_g8 , specular3_g8 , smoothness3_g8 , metallic3_g8 , occlusion3_g8 , emission3_g8 , alpha3_g8 );
 				float4 appendResult240 = (float4(albedo3_g8 , 1.0));
-				
 				float4 appendResult256 = (float4(specular3_g8 , smoothness3_g8));
 				
 				float3 ase_worldTangent = IN.ase_texcoord1.xyz;
@@ -238,10 +210,10 @@ Shader "Hidden/Baking URP"
 				#endif
 				
 
-				outGBuffer0 = appendResult240;
-				outGBuffer1 = appendResult256;
-				outGBuffer2 = appendResult11_g7;
-				outGBuffer3 = appendResult257;
+				outGBuffer0 = appendResult240;//float4(albedo3_g8 , 1.0)
+				outGBuffer1 = appendResult256;//float4(specular3_g8 , smoothness3_g8)
+				outGBuffer2 = appendResult11_g7;//float4((worldNormal8_g7*0.5 + 0.5) , temp_output_7_0_g7)
+				outGBuffer3 = appendResult257;//float4(emission3_g8 , occlusion3_g8)
 				outGBuffer4 = 0;
 				outGBuffer5 = 0;
 				outGBuffer6 = 0;

@@ -1,6 +1,5 @@
 // Amplify Impostors
 // Copyright (c) Amplify Creations, Lda <info@amplify.pt>
-
 Shader "Hidden/ShaderPacker"
 {
 	Properties
@@ -8,7 +7,6 @@ Shader "Hidden/ShaderPacker"
 		_MainTex("_MainTex", 2D) = "white" {}
 		_A("A", 2D) = "white" {}
 	}
-
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" }
@@ -19,8 +17,6 @@ Shader "Hidden/ShaderPacker"
 		Blend Off
 		Cull Off
 		Offset 0,0
-
-
 		Pass // Pack Depth 0
 		{
 			CGPROGRAM
@@ -28,10 +24,8 @@ Shader "Hidden/ShaderPacker"
 			#pragma vertex vert_img
 			#pragma fragment frag
 			#include "UnityCG.cginc"
-
 			uniform sampler2D _MainTex;
 			uniform sampler2D _A;
-
 			float4 frag( v2f_img i ) : SV_Target
 			{
 				float depth = tex2D( _A, i.uv ).r;
@@ -51,15 +45,11 @@ Shader "Hidden/ShaderPacker"
 			#pragma vertex vert_img
 			#pragma fragment frag
 			#include "UnityCG.cginc"
-
 			uniform sampler2D _MainTex;
-
 			float4 frag (v2f_img i ) : SV_Target
 			{
 				float4 finalColor = tex2D( _MainTex, i.uv );
-				//#if !defined(UNITY_HDR_ON)
-					finalColor.rgb = -log2(finalColor.rgb);
-				//#endif
+				finalColor.rgb = -log2(finalColor.rgb);
 				return finalColor;
 			}
 			ENDCG
@@ -72,9 +62,7 @@ Shader "Hidden/ShaderPacker"
 			#pragma vertex vert_img
 			#pragma fragment frag
 			#include "UnityCG.cginc"
-
 			uniform sampler2D _MainTex;
-
 			float4 frag (v2f_img i ) : SV_Target
 			{
 				float4 finalColor = tex2D( _MainTex, i.uv );

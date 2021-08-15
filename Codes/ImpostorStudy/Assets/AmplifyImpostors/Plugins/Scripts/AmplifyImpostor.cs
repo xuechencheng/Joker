@@ -196,11 +196,14 @@ namespace AmplifyImpostors
 		public bool m_createGameobject = true;
 		public bool m_generateQuad = true;
 #endif
-
+		/// <summary>
+		/// 创建m_rtGBuffers[]和m_trueDepth RenderTexture
+		/// </summary>
+		/// <param name="outputList"></param>
+		/// <param name="standardRendering"></param>
 		private void GenerateTextures( List<TextureOutput> outputList, bool standardRendering )
 		{
 			m_rtGBuffers = new RenderTexture[ outputList.Count ];
-			
 #if UNITY_2018_1_OR_NEWER
 			if( standardRendering && m_renderPipelineInUse == RenderPipelineInUse.HD )
 			{
@@ -233,21 +236,22 @@ namespace AmplifyImpostors
 					m_rtGBuffers[ i ].Create();
 				}
 			}
-
 			m_trueDepth = new RenderTexture( (int)m_data.TexSize.x, (int)m_data.TexSize.y, 16, RenderTextureFormat.Depth );
 			m_trueDepth.Create();
 		}
 
+		/// <summary>
+		/// 创建m_alphaGBuffers和m_trueDepth RenderTexture
+		/// </summary>
+		/// <param name="outputList"></param>
 		private void GenerateAlphaTextures( List<TextureOutput> outputList )
 		{
 			m_alphaGBuffers = new RenderTexture[ outputList.Count ];
-
 			for( int i = 0; i < m_alphaGBuffers.Length; ++i )
 			{
 				m_alphaGBuffers[ i ] = new RenderTexture( MinAlphaResolution, MinAlphaResolution, 16, outputList[ i ].SRGB ? RenderTextureFormat.ARGB32 : RenderTextureFormat.ARGBHalf );
 				m_alphaGBuffers[ i ].Create();
 			}
-
 			m_trueDepth = new RenderTexture( MinAlphaResolution, MinAlphaResolution, 16, RenderTextureFormat.Depth );
 			m_trueDepth.Create();
 		}
@@ -509,7 +513,9 @@ namespace AmplifyImpostors
 				}
 			}
 		}
-
+		/// <summary>
+		/// 保存RenderTexture到文件
+		/// </summary>
 		public void RenderToTexture( ref RenderTexture tex, string path, ImageFormat imageFormat, int resizeScale, TextureChannels channels )
 		{
 			Texture2D outfile = AssetDatabase.LoadAssetAtPath<Texture2D>( path );
@@ -582,11 +588,14 @@ namespace AmplifyImpostors
 				}
 			}
 		}
+		/// <summary>
+		/// 记录摄像机采样过程中，Billboard Bound的最大值
+		/// </summary>
+		/// <param name="impostorType"></param>
 		public void CalculateSheetBounds( ImpostorType impostorType )
 		{
 			m_xyFitSize = 0;
 			m_depthFitSize = 0;
-
 			int hframes = m_data.HorizontalFrames;
 			int vframes = m_data.HorizontalFrames;
 			if( impostorType == ImpostorType.Spherical )
@@ -595,33 +604,27 @@ namespace AmplifyImpostors
 				if( m_data.DecoupleAxisFrames )
 					vframes = m_data.VerticalFrames - 1;
 			}
-
 			for( int x = 0; x < hframes; x++ )
 			{
 				for( int y = 0; y <= vframes; y++ )
 				{
 					Bounds frameBounds = new Bounds();
 					Matrix4x4 camMatrixRot = GetCameraRotationMatrix( impostorType, hframes, vframes, x, y );
-
 					for( int i = 0; i < Renderers.Length; i++ )
 					{
 						if( Renderers[ i ] == null || !Renderers[ i ].enabled || Renderers[ i ].shadowCastingMode == ShadowCastingMode.ShadowsOnly )
 							continue;
-
 						MeshFilter mf = Renderers[ i ].GetComponent<MeshFilter>();
 						if( mf == null || mf.sharedMesh == null )
 							continue;
-
 						if( frameBounds.size == Vector3.zero )
 							frameBounds = mf.sharedMesh.bounds.Transform( m_rootTransform.worldToLocalMatrix * Renderers[ i ].localToWorldMatrix );
 						else
 							frameBounds.Encapsulate( mf.sharedMesh.bounds.Transform( m_rootTransform.worldToLocalMatrix * Renderers[ i ].localToWorldMatrix ) );
 					}
-
 					if( x == 0 && y == 0 )
-						m_originalBound = frameBounds;//.Transform( m_rootTransform.worldToLocalMatrix );
-					
-					frameBounds = frameBounds.Transform( camMatrixRot /** m_rootTransform.worldToLocalMatrix*/ );
+						m_originalBound = frameBounds;
+					frameBounds = frameBounds.Transform( camMatrixRot );
 					m_xyFitSize = Mathf.Max( m_xyFitSize, frameBounds.size.x, frameBounds.size.y );
 					m_depthFitSize = Mathf.Max( m_depthFitSize, frameBounds.size.z );
 				}
@@ -716,7 +719,9 @@ namespace AmplifyImpostors
 				packerMat = null;
 			}
 		}
-
+		/// <summary>
+		/// 保存RootTransform的RTS属性
+		/// </summary>
 		private void CopyTransform()
 		{
 			m_oriPos = RootTransform.position;
@@ -733,19 +738,17 @@ namespace AmplifyImpostors
 			RootTransform.rotation = m_oriRot;
 			RootTransform.localScale = m_oriSca;
 		}
-
+		/// <summary>
+		/// 计算更精确的FitSize和PixelOffset
+		/// </summary>
+		/// <param name="targetAmount"></param>
 		public void CalculatePixelBounds( int targetAmount )
 		{
 			bool sRGBcache = GL.sRGBWrite;
-
 			CalculateSheetBounds( m_data.ImpostorType );
 			GenerateAlphaTextures( m_data.Preset.Output );
-			
 			GL.sRGBWrite = true;
-
 			m_pixelOffset = Vector2.zero;
-
-			// TODO: remove this temporary solution
 			CopyTransform();
 			try
 			{
@@ -758,20 +761,15 @@ namespace AmplifyImpostors
 				EditorUtility.ClearProgressBar();
 				throw e;
 			}
-
 			GL.sRGBWrite = sRGBcache;
-
 			bool standardRendering = m_data.Preset.BakeShader == null;
 			int alphaIndex = m_data.Preset.AlphaIndex;
 			if( standardRendering && m_renderPipelineInUse == RenderPipelineInUse.HD )
 				alphaIndex = 3;
 			else if( standardRendering )
 				alphaIndex = 2;
-
-
 			Shader packerShader = AssetDatabase.LoadAssetAtPath<Shader>( AssetDatabase.GUIDToAssetPath( PackerGUID ) );
 			Material packerMat = new Material( packerShader );
-
 			if( m_renderPipelineInUse == RenderPipelineInUse.HD && standardRendering )
 			{
 				// getting alpha
@@ -789,21 +787,16 @@ namespace AmplifyImpostors
 
 			// Render just alpha
 			RenderTexture combinedAlphaTexture = RenderTexture.GetTemporary( MinAlphaResolution, MinAlphaResolution, m_alphaGBuffers[ alphaIndex ].depth, m_alphaGBuffers[ alphaIndex ].format );
-			PackingRemapping( ref m_alphaGBuffers[ alphaIndex ], ref combinedAlphaTexture, 8, packerMat );
-
+			PackingRemapping( ref m_alphaGBuffers[ alphaIndex ], ref combinedAlphaTexture, 8, packerMat ); //float4(0, 0, 0, finalColor.a);
 			DestroyImmediate( packerMat );
 			packerMat = null;
-
 			ClearAlphaBuffers();
-
 			RenderTexture.active = combinedAlphaTexture;
 			Texture2D tempTex = new Texture2D( combinedAlphaTexture.width, combinedAlphaTexture.height, TextureFormat.RGBAFloat, false );
 			tempTex.ReadPixels( new Rect( 0, 0, combinedAlphaTexture.width, combinedAlphaTexture.height ), 0, 0 );
 			tempTex.Apply();
 			RenderTexture.active = null;
-
 			RenderTexture.ReleaseTemporary( combinedAlphaTexture );
-
 			Rect testRect = new Rect( 0, 0, tempTex.width, tempTex.height );
 			Vector2[][] paths;
 			SpriteUtilityEx.GenerateOutline( tempTex, testRect, 0.2f, 0, false, out paths );
@@ -824,10 +817,8 @@ namespace AmplifyImpostors
 					index++;
 				}
 			}
-
 			Vector2 mins = Vector2.one;
 			Vector2 maxs = Vector2.zero;
-
 			for( int i = 0; i < minMaxPoints.Length; i++ )
 			{
 				mins.x = Mathf.Min( minMaxPoints[ i ].x, mins.x );
@@ -835,18 +826,14 @@ namespace AmplifyImpostors
 				maxs.x = Mathf.Max( minMaxPoints[ i ].x, maxs.x );
 				maxs.y = Mathf.Max( minMaxPoints[ i ].y, maxs.y );
 			}
-
 			Vector2 height = ( maxs - mins );
 			float maxBound = Mathf.Max( height.x, height.y );
 			Vector2 center = mins + ( height * 0.5f );
 			m_pixelOffset = ( center - ( Vector2.one * 0.5f ) ) * m_xyFitSize;
-			//Debug.Log( m_pixelOffset.ToString( "N5" ) );
-			//Debug.Log( height.ToString( "N5" ) );
-			m_xyFitSize *= maxBound;
+			m_xyFitSize *= maxBound;//更精确的FitSize
 			m_depthFitSize *= maxBound;
 		}
 
-		// For inspector
 		public void RenderCombinedAlpha( AmplifyImpostorAsset data = null )
 		{
 			AmplifyImpostorAsset tempData = m_data;
@@ -874,17 +861,14 @@ namespace AmplifyImpostors
 			}
 
 			GL.sRGBWrite = sRGBcache;
-
 			bool standardRendering = m_data.Preset.BakeShader == null;
-			int alphaIndex = m_data.Preset.AlphaIndex;
+			int alphaIndex = m_data.Preset.AlphaIndex;//0
 			if( standardRendering && m_renderPipelineInUse == RenderPipelineInUse.HD )
 				alphaIndex = 3;
 			else if( standardRendering )
 				alphaIndex = 2;
-
 			Shader packerShader = AssetDatabase.LoadAssetAtPath<Shader>( AssetDatabase.GUIDToAssetPath( PackerGUID ) );
 			Material packerMat = new Material( packerShader );
-			
 			if( m_renderPipelineInUse == RenderPipelineInUse.HD && standardRendering )
 			{
 				// getting alpha
@@ -899,24 +883,17 @@ namespace AmplifyImpostors
 					m_trueDepth = null;
 				}
 			}
-
-
 			RenderTexture combinedAlphaTexture = RenderTexture.GetTemporary( MinAlphaResolution, MinAlphaResolution, m_alphaGBuffers[ alphaIndex ].depth, m_alphaGBuffers[ alphaIndex ].format );
-			PackingRemapping( ref m_alphaGBuffers[ alphaIndex ], ref combinedAlphaTexture, 8, packerMat );
-
+			PackingRemapping( ref m_alphaGBuffers[ alphaIndex ], ref combinedAlphaTexture, 8, packerMat );// Packer float4(0, 0, 0, finalColor.a);
 			DestroyImmediate( packerMat );
 			packerMat = null;
-
 			ClearAlphaBuffers();
-
 			RenderTexture.active = combinedAlphaTexture;
 			m_alphaTex = new Texture2D( combinedAlphaTexture.width, combinedAlphaTexture.height, TextureFormat.RGBAFloat, false );
 			m_alphaTex.ReadPixels( new Rect( 0, 0, combinedAlphaTexture.width, combinedAlphaTexture.height ), 0, 0 );
 			m_alphaTex.Apply();
 			RenderTexture.active = null;
-
 			RenderTexture.ReleaseTemporary( combinedAlphaTexture );
-
 			m_data = tempData;
 		}
 
@@ -1120,17 +1097,12 @@ namespace AmplifyImpostors
 				guid = m_data.ImpostorType == ImpostorType.Spherical ? UShaderGUID : UShaderOctaGUID;
 			else
 				guid = m_data.ImpostorType == ImpostorType.Spherical ? ShaderGUID : ShaderOctaGUID;
-
-
+			
 			CalculatePixelBounds( outputList.Count );
 			DisplayProgress( 0.1f, "Please Wait... Allocating Resources" );
-
 			GenerateTextures( outputList, standardRendering );
 			DisplayProgress( 0.2f, "Please Wait... Baking" );
-
-			// TODO: remove this temporary solution
 			CopyTransform();
-
 			try
 			{
 				RenderImpostor( m_data.ImpostorType, outputList.Count, true, false, true, m_data.Preset.BakeShader );
@@ -1142,28 +1114,16 @@ namespace AmplifyImpostors
 				EditorUtility.ClearProgressBar();
 				throw e;
 			}
-
 			DisplayProgress( 0.5f, "Please Wait... Remapping" );
-
 			Shader packerShader = AssetDatabase.LoadAssetAtPath<Shader>( AssetDatabase.GUIDToAssetPath( PackerGUID ) );
 			Material packerMat = new Material( packerShader );
-
 			int alphaIndex = m_data.Preset.AlphaIndex;
 			if( standardRendering )
 			{
-				////// SHADER STUFF //////
-				//Shader packerShader = AssetDatabase.LoadAssetAtPath<Shader>( AssetDatabase.GUIDToAssetPath( PackerGUID ) );
-				//Material packerMat = new Material( packerShader );
-
 				if( m_renderPipelineInUse == RenderPipelineInUse.HD )
 				{
-					// getting features and diffusion profile
 					PackingRemapping( ref m_rtGBuffers[ 2 ], ref m_rtGBuffers[ 4 ], 13, packerMat );
-
-					// decoding normals
 					PackingRemapping( ref m_rtGBuffers[ 1 ], ref m_rtGBuffers[ 1 ], 10, packerMat );
-
-					// getting alpha
 					{
 						RenderTexture tempTex = RenderTextureEx.GetTemporary( m_rtGBuffers[ 3 ] );
 						Graphics.Blit( m_rtGBuffers[ 3 ], tempTex );
@@ -1171,8 +1131,6 @@ namespace AmplifyImpostors
 						Graphics.Blit( m_trueDepth, m_rtGBuffers[ 3 ], packerMat, 11 );
 						RenderTexture.ReleaseTemporary( tempTex );
 					}
-
-					// Switch alpha with occlusion
 					{
 						RenderTexture tempTex = RenderTextureEx.GetTemporary( m_rtGBuffers[ 0 ] );
 						RenderTexture tempTex2 = RenderTextureEx.GetTemporary( m_rtGBuffers[ 3 ] );
@@ -1218,38 +1176,35 @@ namespace AmplifyImpostors
 				}
 				else
 				{
+					//float4(albedo3_g8 , 1.0)
+					//float4(specular3_g8 , smoothness3_g8)
+					//float4((worldNormal8_g7*0.5 + 0.5) , temp_output_7_0_g7)
+					//float4(emission3_g8 , occlusion3_g8)
+
 					// Switch alpha with occlusion
 					RenderTexture tempTex = RenderTexture.GetTemporary( m_rtGBuffers[ 0 ].width, m_rtGBuffers[ 0 ].height, m_rtGBuffers[ 0 ].depth, m_rtGBuffers[ 0 ].format );
 					RenderTexture tempTex2 = RenderTexture.GetTemporary( m_rtGBuffers[ 3 ].width, m_rtGBuffers[ 3 ].height, m_rtGBuffers[ 3 ].depth, m_rtGBuffers[ 3 ].format );
-
 					packerMat.SetTexture( "_A", m_rtGBuffers[ 2 ] );
-					Graphics.Blit( m_rtGBuffers[ 0 ], tempTex, packerMat, 4 ); //A.b
+					Graphics.Blit( m_rtGBuffers[ 0 ], tempTex, packerMat, 4 ); //4，float4(_MainTex.rgb, _A.a)
 					packerMat.SetTexture( "_A", m_rtGBuffers[ 0 ] );
-					Graphics.Blit( m_rtGBuffers[ 3 ], tempTex2, packerMat, 4 ); //B.a
+					Graphics.Blit( m_rtGBuffers[ 3 ], tempTex2, packerMat, 4 ); //4，float4(_MainTex.rgb, _A.a)
 					Graphics.Blit( tempTex, m_rtGBuffers[ 0 ] );
 					Graphics.Blit( tempTex2, m_rtGBuffers[ 3 ] );
 					RenderTexture.ReleaseTemporary( tempTex );
 					RenderTexture.ReleaseTemporary( tempTex2 );
-
 					// Pack Depth
-					PackingRemapping( ref m_rtGBuffers[ 2 ], ref m_rtGBuffers[ 2 ], 0, packerMat, m_trueDepth );
+					PackingRemapping( ref m_rtGBuffers[ 2 ], ref m_rtGBuffers[ 2 ], 0, packerMat, m_trueDepth );//0，float4(_MainTex.rgb,_A.r)
 					m_trueDepth.Release();
 					m_trueDepth = null;
-
 					// Fix Albedo
-					PackingRemapping( ref m_rtGBuffers[ 0 ], ref m_rtGBuffers[ 0 ], 5, packerMat, m_rtGBuffers[ 1 ] );
-
-					// TransformNormal
-					//Matrix4x4 View = Matrix4x4.Rotate(
-					//Shader.SetGlobalMatrix( "_Matrix", m_rootTransform.worldToLocalMatrix );
-					//PackingRemapping( ref m_rtGBuffers[ 2 ], ref m_rtGBuffers[ 2 ], 9, packerMat );
+					PackingRemapping( ref m_rtGBuffers[ 0 ], ref m_rtGBuffers[ 0 ], 5, packerMat, m_rtGBuffers[ 1 ] );//float4(_MainTex.rgb/(1-_A.rgb), _MainTex.a)
 				}
 
-				// Fix Emission
+                // Fix Emission
 #if UNITY_2017_3_OR_NEWER && !UNITY_2018_3_OR_NEWER
 				PackingRemapping( ref m_rtGBuffers[ 3 ], ref m_rtGBuffers[ 3 ], 1, packerMat );
 #endif
-			}
+            }
 
 			// TGA
 			for( int i = 0; i < outputList.Count; i++ )
@@ -1263,7 +1218,6 @@ namespace AmplifyImpostors
 
 			Shader dilateShader = AssetDatabase.LoadAssetAtPath<Shader>( AssetDatabase.GUIDToAssetPath( DilateGUID ) );
 			Material dilateMat = new Material( dilateShader );
-
 			// Dilation
 			for( int i = 0; i < outputList.Count; i++ )
 			{
@@ -1346,7 +1300,6 @@ namespace AmplifyImpostors
 
 			Texture2D tex = null;
 			bool hasDifferentResolution = false;
-
 			// Construct file names
 			m_standardFileNames[ 0 ] = ImpostorBakingTools.GlobalAlbedoAlpha;
 			m_standardFileNames[ 1 ] = ImpostorBakingTools.GlobalSpecularSmoothness;
@@ -1362,7 +1315,6 @@ namespace AmplifyImpostors
 				if( tex != null )
 				{
 					m_fileNames[ i ] = AssetDatabase.GetAssetPath( tex );
-					//m_fileNames[ i ] = Path.GetDirectoryName( AssetDatabase.GetAssetPath( tex ) ).Replace( "\\", "/" ) + "/";
 					if( tex.width != (int)m_data.TexSize.x / (int)outputList[ i ].Scale )
 						hasDifferentResolution = true;
 				}
@@ -1385,9 +1337,6 @@ namespace AmplifyImpostors
 						if( indexFound > -1 )
 						{
 							m_fileNames[ indexFound ] = AssetDatabase.GetAssetPath( tex );
-							//m_fileNames[ indexFound ] = Path.GetDirectoryName( AssetDatabase.GetAssetPath( tex ) ).Replace( "\\", "/" ) + "/";
-							//m_fileNames[ indexFound ] += fileName + outputList[ indexFound ].Name + "." + outputList[ indexFound ].ImageFormat.ToString().ToLower();
-
 							if( tex.width != (int)m_data.TexSize.x / (int)outputList[ indexFound ].Scale )
 								hasDifferentResolution = true;
 						}
@@ -1416,21 +1365,15 @@ namespace AmplifyImpostors
 					}
 				}
 			}
-
 			GL.sRGBWrite = chache;
-
 			GameObject impostorObject = null;
 			DisplayProgress( 0.65f, "Please Wait... Generating Mesh and Material" );
-			//RenderCombinedAlpha();
-			Vector4 offsetCalc = /*transform.worldToLocalMatrix **/ new Vector4( m_originalBound.center.x, m_originalBound.center.y, m_originalBound.center.z, 1 );
-			Vector4 offset = new Vector4( offsetCalc.x, offsetCalc.y, offsetCalc.z, -m_pixelOffset.y / m_xyFitSize/*(-pixelOffset.y / m_data.VerticalFrames) * ( m_trueFitsize / m_data.VerticalFrames )*/ );
+			Vector4 offsetCalc = new Vector4( m_originalBound.center.x, m_originalBound.center.y, m_originalBound.center.z, 1 );//TODO
+			Vector4 offset = new Vector4( offsetCalc.x, offsetCalc.y, offsetCalc.z, -m_pixelOffset.y / m_xyFitSize);
 			Vector4 sizeOffset = new Vector4( m_xyFitSize, m_depthFitSize, (m_pixelOffset.x / m_xyFitSize) / (float)m_data.HorizontalFrames, (m_pixelOffset.y / m_xyFitSize) / (float)m_data.VerticalFrames );
-			//offset.y += pixelOffset.y;
 			bool justCreated = false;
 			UnityEngine.Object targetPrefab = null;
 			GameObject tempGO = null;
-
-
 			Mesh mesh = m_data.Mesh;
 			if( mesh == null )
 			{
@@ -1475,8 +1418,6 @@ namespace AmplifyImpostors
 				if( m_lastImpostor != null )
 				{
 					impostorObject = m_lastImpostor;
-					//impostorObject.transform.position = m_rootTransform.position;
-					//impostorObject.transform.rotation = m_rootTransform.rotation;
 				}
 				else
 				{
@@ -1484,7 +1425,6 @@ namespace AmplifyImpostors
 					Undo.RegisterCreatedObjectUndo( impostorObject, "Create Impostor" );
 					impostorObject.transform.position = m_rootTransform.position;
 					impostorObject.transform.rotation = m_rootTransform.rotation;
-
 					justCreated = true;
 				}
 			}
@@ -1782,7 +1722,7 @@ namespace AmplifyImpostors
 #endif
 
 		/// <summary>
-		/// Renders Impostors maps to render textures
+		/// 渲染模型图像到RenderTexture
 		/// </summary>
 		/// <param name="impostorType"></param>
 		/// <param name="impostorMaps">set to true to render all selected maps</param>
@@ -1791,13 +1731,10 @@ namespace AmplifyImpostors
 		{
 			if( !impostorMaps && !combinedAlphas ) //leave early
 				return;
-
 			if( targetAmount <= 0 )
 				return;
-
 			bool standardrendering = customShader == null;
 			Dictionary<Material, Material> bakeMats = new Dictionary<Material, Material>();
-
 			CommandBuffer commandBuffer = new CommandBuffer();
 			if( impostorMaps )
 			{
@@ -1810,7 +1747,6 @@ namespace AmplifyImpostors
 				commandBuffer.SetRenderTarget( rtIDs, m_trueDepth );
 				commandBuffer.ClearRenderTarget( true, true, Color.clear, 1 );
 			}
-
 			CommandBuffer commandAlphaBuffer = new CommandBuffer();
 			if( combinedAlphas )
 			{
@@ -1823,75 +1759,61 @@ namespace AmplifyImpostors
 				commandAlphaBuffer.SetRenderTarget( rtIDsAlpha, m_trueDepth );
 				commandAlphaBuffer.ClearRenderTarget( true, true, Color.clear, 1 );
 			}
-
 			int hframes = m_data.HorizontalFrames;
 			int vframes = m_data.HorizontalFrames;
-
 			if( impostorType == ImpostorType.Spherical )
 			{
 				vframes = m_data.HorizontalFrames - 1;
 				if( m_data.DecoupleAxisFrames )
 					vframes = m_data.VerticalFrames - 1;
 			}
-
 			List<MeshFilter> validMeshes = new List<MeshFilter>();
 			for( int i = 0; i < Renderers.Length; i++ )
 			{
-				// only allow for renderers that are enabled and not marked as shadow only
 				if( Renderers[ i ] == null || !Renderers[ i ].enabled || Renderers[ i ].shadowCastingMode == ShadowCastingMode.ShadowsOnly )
 				{
 					validMeshes.Add( null );
 					continue;
 				}
-
-				// skip non-meshes, for now
 				MeshFilter mf = Renderers[ i ].GetComponent<MeshFilter>();
 				if( mf == null || mf.sharedMesh == null )
 				{
 					validMeshes.Add( null );
 					continue;
 				}
-
 				validMeshes.Add( mf );
 			}
-
 			int validMeshesCount = validMeshes.Count;
-
 			for( int x = 0; x < hframes; x++ )
 			{
 				for( int y = 0; y <= vframes; y++ )
 				{
 					Bounds frameBounds = new Bounds();
 					Matrix4x4 camMatrixRot = GetCameraRotationMatrix( impostorType, hframes, vframes, x, y );
-
 					for( int i = 0; i < validMeshesCount; i++ )
 					{
 						if( validMeshes[ i ] == null )
 							continue;
-
 						if( frameBounds.size == Vector3.zero )
 							frameBounds = validMeshes[ i ].sharedMesh.bounds.Transform( m_rootTransform.worldToLocalMatrix * Renderers[ i ].localToWorldMatrix );
 						else
 							frameBounds.Encapsulate( validMeshes[ i ].sharedMesh.bounds.Transform( m_rootTransform.worldToLocalMatrix * Renderers[ i ].localToWorldMatrix ) );
 					}
-
 					if( x == 0 && y == 0 )
 						m_originalBound = frameBounds;
-
 					frameBounds = frameBounds.Transform( camMatrixRot );
+					//from(0.2, 0.1, -3.12)	to(0.2, 0.1, 9)	result (1, 0, 0, 0.22) (0, 1, 0, 0.14) (0, 0, 1, -3.12) (0, 0, 0, 1)
+					//Matrix4x4.LookAt结果3x3是旋转矩阵；最后一列是移动矩阵，是from向量的坐标
 					Matrix4x4 V = camMatrixRot.inverse * Matrix4x4.LookAt( frameBounds.center - new Vector3( 0, 0, m_depthFitSize * 0.5f ), frameBounds.center, Vector3.up );
 					float fitSize = m_xyFitSize * 0.5f;
-					Matrix4x4 P = Matrix4x4.Ortho( -fitSize+ m_pixelOffset.x, fitSize + m_pixelOffset.x, -fitSize + m_pixelOffset.y, fitSize + m_pixelOffset.y, 0, -m_depthFitSize );
-					V = V.inverse * m_rootTransform.worldToLocalMatrix;
-
+					Matrix4x4 P = Matrix4x4.Ortho( -fitSize + m_pixelOffset.x, fitSize + m_pixelOffset.x, -fitSize + m_pixelOffset.y, fitSize + m_pixelOffset.y, 0, -m_depthFitSize );//透视矩阵
+					V = V.inverse * m_rootTransform.worldToLocalMatrix;//视图矩阵 TODO
 					if( standardrendering && m_renderPipelineInUse == RenderPipelineInUse.HD )
 						P = GL.GetGPUProjectionMatrix( P, true );
-
 					if( impostorMaps )
 					{
 						commandBuffer.SetViewProjectionMatrices( V, P );
 						commandBuffer.SetViewport( new Rect( ( m_data.TexSize.x / hframes ) * x, ( m_data.TexSize.y / ( vframes + ( impostorType == ImpostorType.Spherical ? 1 : 0 ) ) ) * y, ( m_data.TexSize.x / m_data.HorizontalFrames ), ( m_data.TexSize.y / m_data.VerticalFrames ) ) );
-
 						if( standardrendering && m_renderPipelineInUse == RenderPipelineInUse.HD )
 						{
 							BakeHDRPTool.SetupShaderVariableGlobals( V, P, commandBuffer );
@@ -1902,12 +1824,10 @@ namespace AmplifyImpostors
 							commandBuffer.SetGlobalVector( "_WorldSpaceCameraPos", Vector4.zero );	
 						}
 					}
-
 					if( combinedAlphas )
 					{
 						commandAlphaBuffer.SetViewProjectionMatrices( V, P );
 						commandAlphaBuffer.SetViewport( new Rect( 0, 0, MinAlphaResolution, MinAlphaResolution ) );
-
 						if( standardrendering && m_renderPipelineInUse == RenderPipelineInUse.HD )
 						{
 							BakeHDRPTool.SetupShaderVariableGlobals( V, P, commandAlphaBuffer );
@@ -1918,21 +1838,11 @@ namespace AmplifyImpostors
 							commandAlphaBuffer.SetGlobalVector( "_WorldSpaceCameraPos", Vector4.zero );
 						}
 					}
-
 					for( int j = 0; j < validMeshesCount; j++ )
 					{
 						if( validMeshes[ j ] == null )
 							continue;
-
-						// Renderer shares array position with validMesh
 						Material[] meshMaterials = Renderers[ j ].sharedMaterials;
-
-						// Draw Mesh
-						//Transform childTransform = Renderers[ j ].transform;
-						//MaterialPropertyBlock pBlock = new MaterialPropertyBlock();
-						//Renderers[ j ].GetPropertyBlock( pBlock );
-						//Matrix4x4 localMatrix = m_rootTransform.worldToLocalMatrix * childTransform.localToWorldMatrix;
-
 						for( int k = 0; k < meshMaterials.Length; k++ )
 						{
 							Material renderMaterial = null;
@@ -1947,9 +1857,7 @@ namespace AmplifyImpostors
 									pass = renderMaterial.FindPass( "Deferred" );
 								if( pass == -1 )
 									pass = renderMaterial.FindPass( "GBuffer" );
-
 								prePass = renderMaterial.FindPass( "DepthOnly" );
-
 								if( pass == -1 ) // last resort fallback
 								{
 									pass = 0;
@@ -1971,7 +1879,6 @@ namespace AmplifyImpostors
 								prePass = -1;
 								if( !bakeMats.TryGetValue( meshMaterials[ k ], out renderMaterial ) )
 								{
-
 									renderMaterial = new Material( customShader ) { hideFlags = HideFlags.HideAndDontSave };
 #if UNITY_EDITOR
 									renderMaterial.CopyPropertiesFrom( meshMaterials[ k ] );
@@ -1979,11 +1886,8 @@ namespace AmplifyImpostors
 									bakeMats.Add( meshMaterials[ k ], renderMaterial );
 								}
 							}
-
-							// Setup Lightmap keywords and values
 							bool isUsingBakedGI = Renderers[ j ].lightmapIndex > -1;
 							bool isUsingRealtimeGI = Renderers[ j ].realtimeLightmapIndex > -1;
-							//Debug.Log( isUsingBakedGI +" "+ isUsingRealtimeGI );
 							if(( isUsingBakedGI || isUsingRealtimeGI) && !standardrendering )
 							{
 								commandBuffer.EnableShaderKeyword( "LIGHTMAP_ON" );
@@ -1991,7 +1895,6 @@ namespace AmplifyImpostors
 								{
 									commandBuffer.SetGlobalVector( "unity_LightmapST", Renderers[ j ].lightmapScaleOffset );
 								}
-
 								if( isUsingRealtimeGI )
 								{
 									commandBuffer.EnableShaderKeyword( "DYNAMICLIGHTMAP_ON" );
@@ -2001,7 +1904,6 @@ namespace AmplifyImpostors
 								{
 									commandBuffer.DisableShaderKeyword( "DYNAMICLIGHTMAP_ON" );
 								}
-
 								if( isUsingBakedGI && isUsingRealtimeGI )
 								{
 									commandBuffer.EnableShaderKeyword( "DIRLIGHTMAP_COMBINED" );
@@ -2017,37 +1919,28 @@ namespace AmplifyImpostors
 								commandBuffer.DisableShaderKeyword( "DYNAMICLIGHTMAP_ON" );
 								commandBuffer.DisableShaderKeyword( "DIRLIGHTMAP_COMBINED" );
 							}
-
 							commandBuffer.DisableShaderKeyword( "LIGHTPROBE_SH" );
-							
 							if( impostorMaps )
 							{
 								if( prePass > -1 )
 									commandBuffer.DrawRenderer( Renderers[ j ], renderMaterial, k, prePass );
 								commandBuffer.DrawRenderer( Renderers[ j ], renderMaterial, k, pass );
-								//commandBuffer.DrawMesh( mesh, localMatrix, renderMaterial, k, pass, pBlock );
 							}
-
 							if( combinedAlphas )
 							{
 								if( prePass > -1 )
 									commandAlphaBuffer.DrawRenderer( Renderers[ j ], renderMaterial, k, prePass );
-								commandAlphaBuffer.DrawRenderer( Renderers[ j ], renderMaterial, k, pass );
-								//commandAlphaBuffer.DrawMesh( mesh, localMatrix, renderMaterial, k, pass, pBlock );
+								commandAlphaBuffer.DrawRenderer( Renderers[ j ], renderMaterial, k, pass );//使用Baking URP.shader绘制 TODO
 							}
 						}
 					}
-
 					if( impostorMaps )
 						Graphics.ExecuteCommandBuffer( commandBuffer );
-
 					if( combinedAlphas )
 						Graphics.ExecuteCommandBuffer( commandAlphaBuffer );
 				}
 			}
-
 			validMeshes.Clear();
-
 			foreach( var pair in bakeMats )
 			{
 				Material bakeMat = pair.Value;
@@ -2059,31 +1952,26 @@ namespace AmplifyImpostors
 				}
 			}
 			bakeMats.Clear();
-
 			commandBuffer.Release();
 			commandBuffer = null;
-
 			commandAlphaBuffer.Release();
 			commandAlphaBuffer = null;
 		}
 
-		//public void Update()
-		//{
-		//	RenderAllDeferredGroups( m_data );
-		//}
-
+		/// <summary>
+		/// 获取摄像机旋转矩阵 TODO
+		/// </summary>
 		private Matrix4x4 GetCameraRotationMatrix( ImpostorType impostorType, int hframes, int vframes, int x, int y )
 		{
 			Matrix4x4 camMatrixRot = Matrix4x4.identity;
-			if( impostorType == ImpostorType.Spherical ) //SPHERICAL
+			if( impostorType == ImpostorType.Spherical ) //SPHERICAL 从上到下，从左到右
 			{
 				float fractionY = 0;
 				if( vframes > 0 )
 					fractionY = -( 180.0f / vframes );
-				Quaternion hRot = Quaternion.Euler( fractionY * y + StartYRotation, 0, 0 );
+				Quaternion hRot = Quaternion.Euler( fractionY * y + StartYRotation, 0, 0 );//绕x轴转180度 绕y轴转360度
 				Quaternion vRot = Quaternion.Euler( 0, ( 360.0f / hframes ) * x + StartXRotation, 0 );
 				camMatrixRot = Matrix4x4.Rotate( hRot * vRot );
-
 			}
 			else if( impostorType == ImpostorType.Octahedron ) //OCTAHEDRON
 			{
@@ -2187,7 +2075,6 @@ namespace AmplifyImpostors
 			Array.Copy( points, newPoints, points.Length );
 			float halfWidth = width * 0.5f;
 			float halfHeight = height * 0.5f;
-
 			if( invertY )
 			{
 				for( int i = 0; i < newPoints.Length; i++ )
@@ -2195,38 +2082,24 @@ namespace AmplifyImpostors
 					newPoints[ i ] = new Vector2( newPoints[ i ].x, 1 - newPoints[ i ].y );
 				}
 			}
-
 			Array.Copy( newPoints, UVs, newPoints.Length );
-
 			for( int i = 0; i < newPoints.Length; i++ )
 			{
 				newPoints[ i ] = new Vector2( newPoints[ i ].x * width - halfWidth + m_pixelOffset.x, newPoints[ i ].y * height - halfHeight + m_pixelOffset.y );
 			}
-
 			Triangulator tr = new Triangulator( newPoints );
 			int[] indices = tr.Triangulate();
-
 			Vector3[] vertices = new Vector3[ tr.Points.Count ];
 			for( int i = 0; i < vertices.Length; i++ )
 			{
 				vertices[ i ] = new Vector3( tr.Points[ i ].x, tr.Points[ i ].y, 0 );
 			}
-
-			//Vector4[] tangents = new Vector4[ tr.Points.Count ];
-			//for( int i = 0; i < vertices.Length; i++ )
-			//{
-			//	tangents[ i ] = new Vector4( 1, 0, 0, 1 );
-			//}
-
 			Mesh mesh = new Mesh();
 			mesh.vertices = vertices;
 			mesh.uv = UVs;
-			//mesh.tangents = tangents;
-
 			mesh.triangles = indices;
 			mesh.RecalculateNormals();
 			mesh.bounds = new Bounds( offset, m_originalBound.size );
-
 			return mesh;
 		}
 	}

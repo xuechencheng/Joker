@@ -78,7 +78,15 @@ MonoBehaviour:
   MaxVertices: 8
   Tolerance: 0.15
   NormalScale: 0.01
-  ShapePoints: []
+  ShapePoints:
+  - {x: 0.15046795, y: 0.4282878}
+  - {x: 0.15086448, y: 0.67811894}
+  - {x: 0.4602451, y: 1}
+  - {x: 0.5397881, y: 1}
+  - {x: 0.8491378, y: 0.67734116}
+  - {x: 0.8495443, y: 0.44288367}
+  - {x: 0.60916585, y: 0}
+  - {x: 0.38862154, y: 0}
   Preset: {fileID: 11400000, guid: 0403878495ffa3c4e9d4bcb3eac9b559, type: 2}
   OverrideOutput: []
 --- !u!43 &3918270156737548026
@@ -92,14 +100,14 @@ Mesh:
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
-    indexCount: 0
+    indexCount: 18
     topology: 0
     baseVertex: 0
     firstVertex: 0
-    vertexCount: 0
+    vertexCount: 8
     localAABB:
-      m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 0, y: 0, z: 0}
+      m_Center: {x: 0.00011110306, y: -0.14121532, z: 0}
+      m_Extent: {x: 6.351006, y: 9.084853, z: 0}
   m_Shapes:
     vertices: []
     shapes: []
@@ -116,13 +124,17 @@ Mesh:
   m_KeepVertices: 1
   m_KeepIndices: 1
   m_IndexFormat: 0
-  m_IndexBuffer: 
+  m_IndexBuffer: 070005000300030001000700070006000500050004000300030002000100010000000700
   m_VertexData:
     serializedVersion: 3
-    m_VertexCount: 0
+    m_VertexCount: 8
     m_Channels:
     - stream: 0
       offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 12
       format: 0
       dimension: 3
     - stream: 0
@@ -134,9 +146,9 @@ Mesh:
       format: 0
       dimension: 0
     - stream: 0
-      offset: 0
+      offset: 24
       format: 0
-      dimension: 0
+      dimension: 2
     - stream: 0
       offset: 0
       format: 0
@@ -173,12 +185,8 @@ Mesh:
       offset: 0
       format: 0
       dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 0
-    _typelessdata: 
+    m_DataSize: 256
+    _typelessdata: 883acbc004b5943f000000000000000000000000000080bf45141a3ebb5b123f82ffcac0572a58c0000000000000000000000000000080bf387c1a3e98cda43eefea38bffa9d13c1000000000000000000000000000080bf3fa5eb3e000000008112393ffa9d13c1000000000000000000000000000080bf8e2f0a3f00000000d8ffca40cd4257c0000000000000000000000000000080bf1861593f8a33a53e5a3ccb40b885653f000000000000000000000000000080bfbc7b593f2d9f0e3fb4e3fd3f24190f41000000000000000000000000000080bf4bf21b3f0000803f878401c024190f41000000000000000000000000000080bf67f9c63e0000803f
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0

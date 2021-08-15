@@ -912,7 +912,6 @@ namespace AmplifyImpostors
 				else
 					m_currentData.Preset = AssetDatabase.LoadAssetAtPath<AmplifyImpostorBakePreset>( AssetDatabase.GUIDToAssetPath( StandardPreset ) );
 			}
-
 			if( ( ( m_billboardMesh || m_recalculatePreviewTexture ) && m_instance.m_alphaTex == null ) || ( bakeTextures && m_recalculatePreviewTexture ) )
 			{
 				try
@@ -923,7 +922,6 @@ namespace AmplifyImpostors
 				{
 					Debug.LogWarning( "[AmplifyImpostors] Something went wrong with the mesh preview process, please contact support@amplify.pt with this log message.\n" + e.Message + e.StackTrace );
 				}
-
 				if( m_instance.m_cutMode == CutMode.Automatic )
 					m_recalculateMesh = true;
 				m_recalculatePreviewTexture = false;

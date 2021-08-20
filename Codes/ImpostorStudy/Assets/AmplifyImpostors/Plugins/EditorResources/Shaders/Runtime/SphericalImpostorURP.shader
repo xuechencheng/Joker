@@ -29,15 +29,11 @@ Shader "Hidden/Amplify Impostors/Spherical Impostor URP"
 	SubShader
 	{
 		Tags { "RenderPipeline" = "UniversalPipeline" "RenderType" = "Opaque" "Queue" = "Geometry" "DisableBatching" = "True" }
-
 		Cull Back
 		AlphaToMask[_AI_AlphaToCoverage]
-
 		HLSLINCLUDE
 		#pragma target 3.0
-
 		#pragma shader_feature _USE_PARALLAX_ON
-
 		struct SurfaceOutputStandardSpecular
 		{
 			half3 Albedo;
@@ -53,7 +49,6 @@ Shader "Hidden/Amplify Impostors/Spherical Impostor URP"
 		Pass
         {
         	Tags{"LightMode" = "UniversalForward"}
-
         	Name "Base"
 			Blend One Zero
 			ZWrite On
@@ -94,7 +89,6 @@ Shader "Hidden/Amplify Impostors/Spherical Impostor URP"
                 float4 vertex    : POSITION;
                 float3 normal    : NORMAL;
                 float4 tangent   : TANGENT;
-				//float4 texcoord  : TEXCOORD0;
 				float4 texcoord1 : TEXCOORD1;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -119,14 +113,10 @@ Shader "Hidden/Amplify Impostors/Spherical Impostor URP"
         		UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				SphereImpostorVertex( v.vertex, v.normal, o.frameUVs, o.viewPos );
-
                 float3 lwWNormal = TransformObjectToWorldNormal(v.normal );
-
                 VertexPositionInputs vertexInput = GetVertexPositionInputs(v.vertex.xyz);
-                
         	    OUTPUT_LIGHTMAP_UV(v.texcoord1, unity_LightmapST, o.lightmapUVOrVertexSH.xy);
         	    OUTPUT_SH(lwWNormal, o.lightmapUVOrVertexSH.xyz);
-
         	    half3 vertexLight = VertexLighting(vertexInput.positionWS, lwWNormal);
         	    half fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
         	    o.fogFactorAndVertexLight = half4(fogFactor, vertexLight);

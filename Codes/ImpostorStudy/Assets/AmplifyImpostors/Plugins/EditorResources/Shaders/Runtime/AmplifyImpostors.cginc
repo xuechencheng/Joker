@@ -410,14 +410,14 @@ inline void SphereImpostorVertex( inout float4 vertex, inout float3 normal, inou
 {
 	// INPUTS
 	float2 uvOffset = _AI_SizeOffset.zw;
+	//{(center - ( Vector2.one * 0.5f ) )/ m_data.HorizontalFrames, center - ( Vector2.one * 0.5f ) )/ m_data.VerticalFrames)
 	float sizeX = _FramesX;
 	float sizeY = _FramesY - 1; // adjusted
-	float UVscale = _ImpostorSize;
+	float UVscale = _ImpostorSize; //m_xyFitSize
 	float4 fractions = 1 / float4( sizeX, _FramesY, sizeY, UVscale );
-	float2 sizeFraction = fractions.xy;
-	float axisSizeFraction = fractions.z;
+	float2 sizeFraction = fractions.xy; //{1 / _FramesX, 1 / _FramesY}
+	float axisSizeFraction = fractions.z; //1 / (_FramesY - 1)
 	float fractionsUVscale = fractions.w;
-
 	// Basic data
 	float3 worldOrigin = 0;
 	float4 perspective = float4( 0, 0, 0, 1 );
@@ -428,8 +428,8 @@ inline void SphereImpostorVertex( inout float4 vertex, inout float3 normal, inou
 		worldOrigin = ai_ObjectToWorld._m03_m13_m23;
 	}
 	float3 worldCameraPos = worldOrigin + mul( UNITY_MATRIX_I_V, perspective ).xyz;
-
 	float3 objectCameraPosition = mul( ai_WorldToObject, float4( worldCameraPos, 1 ) ).xyz - _Offset.xyz; //ray origin
+	//{ m_originalBound.center.x, m_originalBound.center.y, m_originalBound.center.z}
 	float3 objectCameraDirection = normalize( objectCameraPosition );
 
 	// Create orthogonal vectors to define the billboard
@@ -437,9 +437,11 @@ inline void SphereImpostorVertex( inout float4 vertex, inout float3 normal, inou
 	float3 objectHorizontalVector = normalize( cross( objectCameraDirection, upVector ) );
 	float3 objectVerticalVector = cross( objectHorizontalVector, objectCameraDirection );
 
+	//TODO
 	// Create vertical radial angle
-	float verticalAngle = frac( atan2( -objectCameraDirection.z, -objectCameraDirection.x ) * AI_INV_TWO_PI ) * sizeX + 0.5;
-
+	// frac函数返回标量或每个矢量中各分量的小数部分。 TODO
+	float verticalAngle = frac( atan2( -objectCameraDirection.z, -objectCameraDirection.x ) * AI_INV_TWO_PI ) * sizeX + 0.5; 
+	
 	// Create horizontal radial angle
 	float verticalDot = dot( objectCameraDirection, upVector );
 	float upAngle = ( acos( -verticalDot ) * AI_INV_PI ) + axisSizeFraction * 0.5f;
@@ -449,7 +451,7 @@ inline void SphereImpostorVertex( inout float4 vertex, inout float3 normal, inou
 	float2 uvExpansion = vertex.xy;
 	float cosY = cos( yRot );
 	float sinY = sin( yRot );
-	float2 uvRotator = mul( uvExpansion, float2x2( cosY, -sinY, sinY, cosY ) );
+	float2 uvRotator = mul( uvExpansion, float2x2( cosY, -sinY, sinY, cosY ) );//旋转yRot度
 
 	// Billboard
 	float3 billboard = objectHorizontalVector * uvRotator.x + objectVerticalVector * uvRotator.y + _Offset.xyz;

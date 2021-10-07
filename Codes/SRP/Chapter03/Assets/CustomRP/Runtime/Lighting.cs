@@ -33,7 +33,7 @@ public class Lighting
 		buffer.Clear();
 	}
 	/// <summary>
-    /// 存储定向光的数据
+    /// 存储定向光的颜色和方向
     /// </summary>
     /// <param name="index"></param>
     /// <param name="visibleIndex"></param>

@@ -16,7 +16,9 @@ public class PerObjectMaterialProperties : MonoBehaviour
     float cutoff = 0.5f;
 
     static MaterialPropertyBlock block;
-
+    /// <summary>
+    /// Inspector中的任何值被修改时会调用
+    /// </summary>
     void OnValidate()
     {
         if (block == null)

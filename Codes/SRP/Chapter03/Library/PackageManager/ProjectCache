@@ -5,15 +5,15 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637637241538278902
-    m_Hash: 2610287572
+      ticks: 637638997620910425
+    m_Hash: 2153340920
   m_LockFileStatus:
     m_FilePath: D:/Joker/Codes/SRP/Chapter03/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637637241556503152
+      ticks: 637689292459042184
     m_Hash: 2401826085
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
@@ -482,7 +482,6 @@ m_PackageAssets:
         - 7.5.3
         - 7.6.0
         - 7.7.0
-        - 7.7.1
         - 8.0.1
         - 8.1.0
         - 8.2.0
